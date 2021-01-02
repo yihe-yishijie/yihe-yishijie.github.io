@@ -75,9 +75,9 @@
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2020/12/25/搭建私有云笔记-技术篇9博客/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-25T08:03:09.000Z">
-          2020-12-25
+      <a href="/2021/01/02/搭建私有云笔记-技术篇9博客/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-02T05:42:32.000Z">
+          2021-01-02
         </time>
       </a>
     </span>
@@ -105,7 +105,7 @@
 <p>安装完成<br>cd到hexo目录中完成博客初始化<br><code>hexo init blog</code><br>blog是博客的具体目录</p>
 <p>进入目录<br><code>cd blog</code><br>配置环境<br><code>npm install</code></p>
 <hr>
-<h4 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h4><p>在官网选中喜欢的主题后，在其github仓库中找到主题文件的下载地址，然后用<code>git clone</code>命令在themes目录中添加主题<br>例如<br><code>git clone https://github.com/theme-next/hexo-theme-next.git themes/next</code><br>在博客目录/hexo/blog下的node_modules中删除原主题配置文件<code>landscape</code><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E5%88%A0%E9%99%A4%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96%E5%8F%82%E6%95%B02020123101.png" alt="[删除相关依赖参数2020123101.png]"></p>
+<h4 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h4><p>在官网选中喜欢的主题后，在其github仓库中找到主题文件的下载地址，然后用<code>git clone</code>命令在themes目录中添加主题<br>例如<br><code>git clone https://github.com/theme-next/hexo-theme-next.git themes/next</code><br>在博客目录/hexo/blog下的node_modules中删除原主题配置文件<code>landscape</code><br><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E5%88%A0%E9%99%A4%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96%E5%8F%82%E6%95%B02020123101.png" alt="[删除相关依赖参数2020123101.png]"></p>
 <p><font color="#BF360C"><strong>一定注意删除上面的”,”</strong></font></p>
 <p>进入到博客目录下/hexo/blog，修改_config.yml文件中themes的值<br>themes： （你的主题名称，注意前面有一个空格）<br>修改语言等参见官网配置说明</p>
 <hr>
@@ -123,7 +123,7 @@
 <hr>
 <h4 id="git推送"><a href="#git推送" class="headerlink" title="git推送"></a>git推送</h4><p>GitHub创建个人仓库<br>注册<br>创建一个和你用户名相同的仓库，后面加.github.io<br>生成SSH添加到GitHub</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
-<p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code><br>在.ssh文件中找到公共秘钥<code>id_rsa.pub</code><br>将其复制到GitHub仓库的设置-密钥中<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/github%E5%AF%86%E9%92%A52020123102.png" alt="[github密钥2020123102.png]"></p>
+<p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code><br>在.ssh文件中找到公共秘钥<code>id_rsa.pub</code><br>将其复制到GitHub仓库的设置-密钥中<br><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/github%E5%AF%86%E9%92%A52020123102.png" alt="[github密钥2020123102.png]"></p>
 <p>github是外网，弈何测试过在国内联通手机不用wifi不能直接打开，可以在配一个gitee仓库</p>
 <p>在gitee配置相同</p>
 <p>修改：<code>_config.yml</code></p>
@@ -143,7 +143,7 @@
 <p>坑1：Nodejs及其Nodejs下的包管理器npm与hexo有版本匹配的问题，建议使用某大神开发的Node版本管理控制器n来安装</p>
 <p>坑2：加图</p>
 <p>坑3：加字数统计和点击统计</p>
-<p>坑4：发布时，The key you are authenticating with has been marked as read only私钥验证只有可读权限。解决办法如下<img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E7%A7%81%E9%92%A5%E9%AA%8C%E8%AF%812020122601.png" alt="[私钥验证2020122601.png]"></p>
+<p>坑4：发布时，The key you are authenticating with has been marked as read only私钥验证只有可读权限。解决办法如下<img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E7%A7%81%E9%92%A5%E9%AA%8C%E8%AF%812020122601.png" alt="[私钥验证2020122601.png]"></p>
 
       
     </div>

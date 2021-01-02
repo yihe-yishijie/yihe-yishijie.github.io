@@ -76,9 +76,9 @@
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2020/12/25/搭建私有云笔记-技术篇7Vsftp/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-25T08:02:20.000Z">
-          2020-12-25
+      <a href="/2021/01/02/搭建私有云笔记-技术篇7Vsftp/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-02T03:42:32.000Z">
+          2021-01-02
         </time>
       </a>
     </span>
@@ -118,7 +118,7 @@
 <p>设置ssl证书密钥信息，注意主机名称<br><code>cp vsftpd.pem /etc/xxx/vsftpd.pem</code><br><code>chmod 400 /etc/xxx/vsftpd.pem</code></p>
 <p>重启动<br><code>sudo service vsftpd restart</code></p>
 <hr>
-<h3 id="2、filezilla（ftp）客户端"><a href="#2、filezilla（ftp）客户端" class="headerlink" title="2、filezilla（ftp）客户端"></a>2、filezilla（ftp）客户端</h3><p>配置<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%877Vsftp/filezilla%E8%AE%BE%E7%BD%AE2020123101.png" alt="[filezilla设置2020123101.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%877Vsftp/filezilla%E8%AE%BE%E7%BD%AE2020123102.png" alt="[filezilla设置2020123102.png]"><br>如果不能登录则将传输设置改为主动模式</p>
+<h3 id="2、filezilla（ftp）客户端"><a href="#2、filezilla（ftp）客户端" class="headerlink" title="2、filezilla（ftp）客户端"></a>2、filezilla（ftp）客户端</h3><p>配置<br><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%877Vsftp/filezilla%E8%AE%BE%E7%BD%AE2020123101.png" alt="[filezilla设置2020123101.png]"><br><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%877Vsftp/filezilla%E8%AE%BE%E7%BD%AE2020123102.png" alt="[filezilla设置2020123102.png]"><br>如果不能登录则将传输设置改为主动模式</p>
 <p>公网登录同理，主机填写网址，如果不能登录则将传输设置改为被动模式</p>
 <p>###3、手机端配置<br>建议用ES文件浏览器配置类似<br>且如果开发了权限，FTP手机端可在线写入</p>
 <p>坑：<br>1、配置文件中参数有空格或者错字<br>2、虚拟账户对应的本地账户必须有家目录，但可以没有密码<br>3、listen、listen_ipv6不可同时选YES<br>4、注意根目录权限为不可写（更安全）且操作目录的属主和权限要与登录虚拟账户对应的本地账户对应。<br>5、关于加入了pasv_address=xxx.xxx.xxx(你的网址)参数，无法开机启动的问题，用/etc/rc.local添加开机启动命令，注意vsftpd需要一定的配置环境，所以立即开机启动无法运行，需要延时执行，在exit 0前添加</p>
