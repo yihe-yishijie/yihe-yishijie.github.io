@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建私有云笔记-技术篇1远程开机 | 弈世界 | 认知世界、连通万物</title>
+
+  
+  <meta name="author" content="弈何">
+  
+
+  
+  <meta name="description" content="关键词：IT，智能插座，通电唤醒，内网穿透，公网ip,动态域名服务，动态域名服务，端口映射，远程开机，主板网卡唤醒 ，坑
+阅读说明：本系列为个人重要技术资料备忘存档，记录1个多月弈何搭建安全的、私有云笔记、云存储服务器跨越各种坑的经过，适合有硬核需求的技术派小白直男阅读。谨慎进入
+入门可用级别
+本系">
+  
+
+  
+  <meta name="keywords" content="笔记">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="搭建私有云笔记-技术篇1远程开机"/>
+
+  <meta property="og:site_name" content="弈世界"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="弈世界" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">弈世界</a>
+    </h1>
+    <p class="site-description">认知世界、连通万物</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>搭建私有云笔记-技术篇1远程开机</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/23/搭建私有云笔记-技术篇1远程开机/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-23T08:02:32.000Z">
+          2020-12-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，智能插座，通电唤醒，内网穿透，公网ip,动态域名服务，动态域名服务，端口映射，远程开机，主板网卡唤醒 ，坑</font></strong></p>
+<p><font color="#BF360C"><strong>阅读说明：本系列为个人重要技术资料备忘存档，记录1个多月弈何搭建安全的、私有云笔记、云存储服务器跨越各种坑的经过，适合有硬核需求的技术派小白直男阅读。谨慎进入</strong></font></p>
+<p>入门可用级别</p>
+<p>本系列有大量引用，因为当时部署服务器时未做记录，加之工作量巨大，未附上引用备注。</p>
+<p>因为IT零基础，基础知识不牢，可能存在理论解释上的错误。欢迎交流，</p>
+<p>行文时间为2020年11月到12月，支持本期大部分软件、硬件、网络环境。</p>
+<p>PS：<font color="#BF360C"><strong>关于预算，弈何走了不少弯路，大概花了2400多，如果最便宜的方案3~400元能够搞定。买一台树莓派和一个u盘即可。要求高可以再加一个带电源的移动硬盘</strong></font>。最后一文总回顾会详细总结。</p>
+<hr>
+<p>本系列涉及主要硬件：台式电脑，智能插座，华为AR路由器，树莓派</p>
+<p>涉及技术包括：远程开机，内网穿透（获取公网ip，光猫桥接，端口映射，动态域名服务——DDNS），vpn（虚拟专线-网络安全），vsftp、samba局域网共享文件夹，博客（云笔记、知识整沉淀）</p>
+<p>涉及操作系统和网络环境：windows7，linux操作系统(Raspberry Pi OS with desktop and recommended software)，公网IP</p>
+<p>涉及主要软件包括：远程桌面软件mstsc、xrdp，vpn软件pptpd、l2tp vpn，ipsec vpn，ftp软件vsftpd，局域网共享文件夹软件samba，认证软件ppp，加密通信软件openssl，博客软件hexo，笔记软件obsidian</p>
+<hr>
+<h2 id="远程开机"><a href="#远程开机" class="headerlink" title="远程开机"></a>远程开机</h2><p>远程开机又叫网络唤醒WOL (Wake On Lan)</p>
+<p>实现远程开机有：智能插座通电唤醒和主板网卡唤醒两种方法。</p>
+<hr>
+<h4 id="智能插座实现通电唤醒"><a href="#智能插座实现通电唤醒" class="headerlink" title="智能插座实现通电唤醒"></a>智能插座实现通电唤醒</h4><p>方法1：通电唤醒，买一个<font color="#BF360C"><strong>智能插座</strong></font>即可。在有wifi的环境中用对应的手机app和互联网即可实现远程控制电脑是否通电，再开启主板的通电唤醒功能，即可实现远程开机。智能插座方案已经商用，成熟非常方便。</p>
+<p>现在成熟的智能插座，可以做到wifi条件下计划定时和手机app手动远程遥控通断电两种方式。</p>
+<p>对于没有智能功能的电器部分也可以通过智能插座操纵（相关电器必须满足通电即启动），这个就是创新，叠加了远程控制一个元素而已。但是极大的方便了人们的生活，突破了时间和空间的限制，让各种电器设备运行更加符合人的节奏。<br>由此，<font color="#BF360C"><strong>非常看好智能家居的发展</strong></font>。</p>
+<p>例如：<br>技嘉主板在bios设置中：电源管理，电源恢复时系统状态选择设置为永远启动<br>（Power Management Setup设置Restore AC Power Loss）<br>Power On——当电流恢复时，计算机处在开机状态。</p>
+<p>配合智能插座设置</p>
+<p><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E6%99%BA%E8%83%BD%E6%8F%92%E5%BA%A7app2020122401.png" alt="[智能插座app2020122401.png]"></p>
+<p>即可。</p>
+<p><font color="#BF360C"><strong>智能插座还可以安排计划任务，设定自动开机、和关闭电源的时间</strong></font></p>
+<p>注：如果用计划任务安排了定时自动开机，最好对应设置计划关闭电源的任务，避免忘记关电源后再开机失效，也减轻每次关机后需手动操作关闭电源的负担。</p>
+<p>但电脑在运行中直接关电源容易导致每分钟7200转的磁头直接把硬盘的盘片划伤，成为物理坏道，并损坏坏道上的文件，大家要注意在自动关电源前用系统关闭计算机。</p>
+<p>其实设置计划任务也利于大家养成规律的作息时间，对身体好。</p>
+<hr>
+<h4 id="主板网卡软件唤醒"><a href="#主板网卡软件唤醒" class="headerlink" title="主板网卡软件唤醒"></a>主板网卡软件唤醒</h4><p>方法2：主板网卡软件唤醒。（<font color="#BF360C"><strong>点评：比较麻烦，但其技术基础，在后面的云服务器配置用的上</strong></font>）。</p>
+<p>如果您的路由器获取的ip是内网（局域网）ip（内网ip段：192.168.0.0-192.168.255.255、172.16.0.0-172.31.255.255、10.0.0.0-10.255.255.255），就不能直接实现外网远程唤醒。</p>
+<p>需要先实现内网穿透。</p>
+<p>我们在局域网（通常在路由器后连接的电脑或手机）因为缺乏准确的地址，均不能直接被公网（互联网）连接，所以必须给指定的设备先固定一个属于公网的准确地址，这个过程叫内网穿透。</p>
+<p>1、内网穿透：<br><font color="#BF360C"><strong>请给你的运营商电话，将运营商到家IP地址换成公网（互联网）动态ip</strong></font>。<br>ps：除非公司可以获取公网固定IP地址，弈何实测过，成都地区，移动、电信、联通三家运营商个人都无法获取公网固定IP。</p>
+<p>——推测原因a.IPv4的地址比较紧张，资源有限，期待IPv6赶快普及。而地址资源数量级增加的IPv6不能更快普及并非技术问题，而是与现有很多固有利益有关。</p>
+<p>推测原因b.同<a href="%E9%9D%A2%E5%AF%B9%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E5%8E%86%E5%8F%B2%E8%BF%9B%E7%A8%8B%E6%88%91%E4%BB%AC%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E.md">[面对互联网的历史进程我们该怎么办]</a>一文所述，减少许多缺乏是否分辨能力的老铁们和别有用心的阴谋家接触、避免后者发布过多不必要的干扰信息，其实是一种父爱。但也说明监管偏保守。其实即使不提供固定公网ip也挡不住真正有心干坏事的人，而且互联网是有记忆的，遵循痕迹化管理原则，在大数据时代，面对真正必要的监管，大家都是透明的，现有监管技术，低成本抓坏人，是绰绰有余的。</p>
+<p>结论是弈何认为其实可以进一步放开，降低更多人接触、学习信息化，实现创新的成本。互联网技术其实并没有多么高不可攀。</p>
+<p>搞定公网IP后，如果您用的是光猫路由一体机，连接光猫的路由器获取的也是内网ip，就需要登录，将光猫连接方式改为<font color="#BF360C"><strong>桥接</strong></font>（需要登陆光猫更改设置），<br>![[光猫桥接2020120402.png]](光猫桥接2020120402 1.png)</p>
+<p>备注：设置桥接以后，如果需要设置光猫配置，怎么进入光猫的后台？特别多数路由器默认ip192.168.1.1与光猫重叠。<br>1）、连接光猫的wifi（用wifi需要关闭路由器，或更改路由器ip）或者网线连接光猫lan口。<br>2）、手动更改本机的ip地址为光猫所在网段的地址。 如光猫的ip为192.168.1.1 , 操作电脑ip192.168.1.55 。<br>3）、浏览器输入光猫的ip地址即可。</p>
+<p>设置光猫桥接后，通过路由器直接拨号上网，这样路由器获取的才能是公网动态ip（ip地址是不断变化的），路由器的动态域名服务功能才能将域名解析到你的公网动态ip上。  </p>
+<p><font color="#BF360C"><strong>动态域名服务（DDNS）</strong></font>动态域名服务，是将用户不断变动的动态ip地址映射到一个固定的域名解析服务上，用户每次连接网络的时候，客户端程序就会把该主机的动态ip地址发送给位于DDNS服务器，从而变相拥有了固定地址。</p>
+<p>动态域名服务需要在提供DDNS服务的网站（花生壳（orag.com），公云（3322.org），Dynans.com和No-ip.com）注册、获取域名（有收费和免费域名）、域名备案和在自己路由器上添加自己的ddns账号参数实现将动态公网ip与自己的域名进行绑定。弈何选用的是花生壳服务。</p>
+<p>通俗讲就是你每次换号都马上告诉门卫李大爷，那么即使你经常换，大家也能通过李大爷电话你。</p>
+<p>有了固定地址，再在路由器上建立端口映射，大家就可以通过外网找到你内网的特定服务器了。</p>
+<p><font color="#BF360C"><strong>端口映射</strong></font>是NAT（Network Address Translation，网络地址转换）的一种，可以帮助我们把局域网IP中的指定电脑（服务器）连接到公网，从而使得公网客户端能够访问。一般路由器都能提供NAT或端口映射。</p>
+<p>这样内网穿透就完成了。公网的设备就可以通过域名和端口号访问内网指定设备了。</p>
+<p>其实我们访问的网页也是有端口的，只是80端口默认省略，例如<code>www.baidu.com:80</code>，才是完整的写法</p>
+<p>端口映射配置图例TP-Link路由器：<br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84tplink2020122403.png" alt="[端口映射tplink2020122403.png]"><br>端口映射配置图例-华为AR路由器：<br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122404.png" alt="[端口映射华为ar2020122404.png]"><br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122405.png" alt="[端口映射华为ar2020122405.png]"><br>远程开机的端口号范围是从0 到65535随便写，并不限定某一个端口。</p>
+<p>如果没有公网动态IP，还可以使用蒲公英路由器，旺石私有云盘或者用树莓派使用frp（需有公网IP的云服务器配合）等方案实现内网穿透。</p>
+<p>2、远程开机</p>
+<p>原理：如今大多数电脑、笔记本、NAS、甚至是打印机等设备都支持远程开机功能，配置相关硬件参数后，</p>
+<p>举例：主板网卡唤醒功能</p>
+<p>技嘉主板设置：<br>bios:network stack drive support开启<br>ipv4/6开启<br>fastboot开启（开启network必须开这个）<br>网络堆叠开启<br>网络开启<br>erp省电技术，必须要关闭<br>系统: 设备管zhi理器-网卡-属性-允许远程开启</p>
+<p>网卡设置：<br>【关机 网络唤醒】 ON<br>【环保节能】 OFF<br>【魔术封包唤醒】ON</p>
+<p>便可使用<br>网页：<u><a target="_blank" rel="noopener" href="https://www.depicus.com/wake-on-lan/woli">https://www.depicus.com/wake-on-lan/woli</a></u>、<br>或微信小程序：<u>网络唤醒</u><br>或者程序：<u>WakeOnLan</u></p>
+<p>通过网络给电脑发送唤醒命令。从而实现远程开机。</p>
+<hr>
+<p><strong><font color="#BF360C">坑1</font>：主板网卡唤醒主机断电后无法唤醒，推测原因：主板会将断电後网络唤醒的功能存储在NVRAM模块中，存储完毕自动断电。 网络唤醒功能存储在主板的NVRAM中，220V断掉后，主板也同时断电，NVRAM被清空，所以无法进行唤醒。</strong></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/IT/">IT</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/智能插座/">智能插座</a><a href="/tags/通电唤醒/">通电唤醒</a><a href="/tags/内网穿透/">内网穿透</a><a href="/tags/公网ip/">公网ip</a><a href="/tags/动态域名服务/">动态域名服务</a><a href="/tags/端口映射/">端口映射</a><a href="/tags/远程开机/">远程开机</a><a href="/tags/主板网卡唤醒/">主板网卡唤醒</a><a href="/tags/坑/">坑</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 弈何
+    
+  </p>
+</footer>
+    
+    
+<script>
+    var _hmt = _hmt || [];
+    ( function () {
+        var hm = document.createElement( "script" );
+        hm.src = "https://hm.baidu.com/hm.js?dangeryond";
+        var s = document.getElementsByTagName( "script" )[ 0 ];
+        s.parentNode.insertBefore( hm, s );
+    } )();
+</script>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建私有云笔记-技术篇9博客 | 弈世界 | 认知世界、连通万物</title>
+
+  
+  <meta name="author" content="弈何">
+  
+
+  
+  <meta name="description" content="关键词：IT，树莓派4b，博客，hexo
+
+现在比较流行的博客包括wordpress，hexo，因为可以生成静态网页，并且免费在github上部署，hexo可以完美支持markdown功能，相比动态博客，hexo低成本易维护，弈何最后选择了hexo。
+安装环境：硬件，树莓派4b操作系统，Raspbi">
+  
+
+  
+  <meta name="keywords" content="笔记">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="搭建私有云笔记-技术篇9博客"/>
+
+  <meta property="og:site_name" content="弈世界"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="弈世界" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">弈世界</a>
+    </h1>
+    <p class="site-description">认知世界、连通万物</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>搭建私有云笔记-技术篇9博客</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇9博客/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T08:03:09.000Z">
+          2020-12-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，树莓派4b，博客，hexo</font></strong></p>
+<hr>
+<p>现在比较流行的博客包括wordpress，hexo，因为可以生成静态网页，并且免费在github上部署，hexo可以完美支持markdown功能，相比动态博客，hexo低成本易维护，弈何最后选择了hexo。</p>
+<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<hr>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>推荐这篇文章，讲的很详细<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程_Fangzh的技术博客-CSDN博客_hexo</a><br>简述记录过程</p>
+<p>安装Git<br><code>sudo apt-get install git</code><br>安装nodejs</p>
+<p><font color="#BF360C"><strong>Nodejs及其Nodejs下的包管理器npm与hexo有版本匹配的问题，建议使用某大神开发的Node版本管理控制器n来安装</strong></font></p>
+<p>安装nodejs版本控制器<br><code>sudo npm install -g n</code></p>
+<p>安装合适的nodejs版本（需要根据最新的hexo版本选择合适的nodejs和nmp—Node Package Manager,即:node包管理器版本）<br><code>sudo n 12.12.0 alias -g</code></p>
+<p>版本查询网页：<br><a target="_blank" rel="noopener" href="https://nodejs.org/en/download/releases/">Previous Releases | Node.js</a></p>
+<p>安装版本查询<br><code>node -v &amp;&amp; npm -v</code></p>
+<p>切换到安装文件夹后，安装hexo<br><code>npm install hexo</code><br><code>echo &#39;PATH=&quot;$home/yihe/hexo:./node_modules/.bin&quot;&#39; &gt;&gt; ~/.profile</code><br>其中$home/yihe/hexo是你自己的安装路径</p>
+<p>安装完成<br>cd到hexo目录中完成博客初始化<br><code>hexo init blog</code><br>blog是博客的具体目录</p>
+<p>进入目录<br><code>cd blog</code><br>配置环境<br><code>npm install</code></p>
+<hr>
+<h4 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h4><p>在官网选中喜欢的主题后，在其github仓库中找到主题文件的下载地址，然后用<code>git clone</code>命令在themes目录中添加主题<br>例如<br><code>git clone https://github.com/theme-next/hexo-theme-next.git themes/next</code><br>在博客目录/hexo/blog下的node_modules中删除原主题配置文件<code>landscape</code><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E5%88%A0%E9%99%A4%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96%E5%8F%82%E6%95%B02020123101.png" alt="[删除相关依赖参数2020123101.png]"></p>
+<p><font color="#BF360C"><strong>一定注意删除上面的”,”</strong></font></p>
+<p>进入到博客目录下/hexo/blog，修改_config.yml文件中themes的值<br>themes： （你的主题名称，注意前面有一个空格）<br>修改语言等参见官网配置说明</p>
+<hr>
+<h4 id="加分类和标签"><a href="#加分类和标签" class="headerlink" title="加分类和标签"></a>加分类和标签</h4><p><font color="#BF360C"><strong>请阅读自己主题的readme一般有加分类和标签的方法</strong></font></p>
+<p>例如这是我选的hacker的主题开启分类和标签的说明文档：</p>
+<blockquote>
+<p>启用分类和标签页面<br>分类功能：执行 <code>hexo new page categories</code> ，然后修改生成的 <code>source/categories/index.md</code> ：<br>title: 分类<br>date: 2017-01-30 19:16:17<br>layout: “categories”<br>-–<br>如果你需要关闭该页的评论，可以添加一行 <code>comments: false</code>；<code>title</code> 对应的则是该页的标题。<br>标签功能：同理，执行 <code>hexo new page tags</code> ，然后修改生成的 <code>source/tags/index.md</code> ：<br>title: 标签<br>date: 2017-01-30 19:16:17<br>layout: “tags”<br>-–</p>
+</blockquote>
+<hr>
+<h4 id="hexo加图"><a href="#hexo加图" class="headerlink" title="hexo加图"></a>hexo加图</h4><p>参见此贴：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f72aaad7b852">HEXO插入图片（详细版） - 简书</a></p>
+<p>下文为资料存档，避免网页丢失<br>安装插件<br><code>npm install hexo-asset-image --save</code></p>
+<p>修改/hexo/blog的配置文件_config.yml的<br><code>post_asset_folder: true</code><br>打开<br><code>undefined/node_modules/hexo-asset-image/index.js</code>将内容更换为下面的代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;use strict&#x27;</span>;</span><br><span class="line">var cheerio = require(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span><br><span class="line"><span class="keyword">function</span> getPosition(str, m, i) &#123;</span><br><span class="line">  <span class="built_in">return</span> str.split(m, i).join(m).length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var version = String(hexo.version).split(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">hexo.extend.filter.register(<span class="string">&#x27;after_post_render&#x27;</span>, <span class="keyword">function</span>(data)&#123;</span><br><span class="line">  var config = hexo.config;</span><br><span class="line">  <span class="keyword">if</span>(config.post_asset_folder)&#123;</span><br><span class="line">        var link = data.permalink;</span><br><span class="line">    <span class="keyword">if</span>(version.length &gt; 0 &amp;&amp; Number(version[0]) == 3)</span><br><span class="line">       var beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, 1) + 1;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">       var beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, 3) + 1;</span><br><span class="line">    // In hexo 3.1.1, the permalink of <span class="string">&quot;about&quot;</span> page is like <span class="string">&quot;.../about/index.html&quot;</span>.</span><br><span class="line">    var endPos = link.lastIndexOf(<span class="string">&#x27;/&#x27;</span>) + 1;</span><br><span class="line">    link = link.substring(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    var toprocess = [<span class="string">&#x27;excerpt&#x27;</span>, <span class="string">&#x27;more&#x27;</span>, <span class="string">&#x27;content&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(var i = 0; i &lt; toprocess.length; i++)&#123;</span><br><span class="line">      var key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      var $ = cheerio.load(data[key], &#123;</span><br><span class="line">        ignoreWhitespace: <span class="literal">false</span>,</span><br><span class="line">        xmlMode: <span class="literal">false</span>,</span><br><span class="line">        lowerCaseTags: <span class="literal">false</span>,</span><br><span class="line">        decodeEntities: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">&#x27;img&#x27;</span>).each(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        <span class="keyword">if</span> ($(this).attr(<span class="string">&#x27;src&#x27;</span>))&#123;</span><br><span class="line">            // For windows style path, we replace <span class="string">&#x27;\&#x27;</span> to <span class="string">&#x27;/&#x27;</span>.</span><br><span class="line">            var src = $(this).attr(<span class="string">&#x27;src&#x27;</span>).replace(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span>(!/http[s]*.*|\/\/.*/.<span class="built_in">test</span>(src) &amp;&amp;</span><br><span class="line">               !/^\s*\//.<span class="built_in">test</span>(src)) &#123;</span><br><span class="line">              // For <span class="string">&quot;about&quot;</span> page, the first part of <span class="string">&quot;src&quot;</span> can<span class="string">&#x27;t be removed.</span></span><br><span class="line"><span class="string">              // In addition, to support multi-level local directory.</span></span><br><span class="line"><span class="string">              var linkArray = link.split(&#x27;</span>/<span class="string">&#x27;).filter(function(elem)&#123;</span></span><br><span class="line"><span class="string">                return elem != &#x27;</span><span class="string">&#x27;;</span></span><br><span class="line"><span class="string">              &#125;);</span></span><br><span class="line"><span class="string">              var srcArray = src.split(&#x27;</span>/<span class="string">&#x27;).filter(function(elem)&#123;</span></span><br><span class="line"><span class="string">                return elem != &#x27;</span><span class="string">&#x27; &amp;&amp; elem != &#x27;</span>.<span class="string">&#x27;;</span></span><br><span class="line"><span class="string">              &#125;);</span></span><br><span class="line"><span class="string">              if(srcArray.length &gt; 1)</span></span><br><span class="line"><span class="string">                srcArray.shift();</span></span><br><span class="line"><span class="string">              src = srcArray.join(&#x27;</span>/<span class="string">&#x27;);</span></span><br><span class="line"><span class="string">              $(this).attr(&#x27;</span>src<span class="string">&#x27;, config.root + link + src);</span></span><br><span class="line"><span class="string">              console.info&amp;&amp;console.info(&quot;update link as:--&gt;&quot;+config.root + link + src);</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        &#125;else&#123;</span></span><br><span class="line"><span class="string">            console.info&amp;&amp;console.info(&quot;no src attr, skipped...&quot;);</span></span><br><span class="line"><span class="string">            console.info&amp;&amp;console.info($(this));</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;);</span></span><br><span class="line"><span class="string">      data[key] = $.html();</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;);</span></span><br></pre></td></tr></table></figure>
+<p>然后就可以在markdown中直接插入图片了<br>插入格式<br><code>![图片名称](图片名称.后缀名)</code><br>图片会放在同名文件夹中。</p>
+<hr>
+<h4 id="git推送"><a href="#git推送" class="headerlink" title="git推送"></a>git推送</h4><p>GitHub创建个人仓库<br>注册<br>创建一个和你用户名相同的仓库，后面加.github.io<br>生成SSH添加到GitHub</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+<p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code><br>在.ssh文件中找到公共秘钥<code>id_rsa.pub</code><br>将其复制到GitHub仓库的设置-密钥中<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/github%E5%AF%86%E9%92%A52020123102.png" alt="[github密钥2020123102.png]"></p>
+<p>github是外网，弈何测试过在国内联通手机不用wifi不能直接打开，可以在配一个gitee仓库</p>
+<p>在gitee配置相同</p>
+<p>修改：<code>_config.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">        github: git@github.com:用户名&#x2F;用户名.github.io.git</span><br><span class="line">        gitee: git@gitee.com:用户名&#x2F;用户名.git</span><br><span class="line">  branch: master</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>安装deploy-git<br><code>npm install hexo-deployer-git --save</code></p>
+<p>写文章<br><code>hexo n &quot;文章题目&quot;</code></p>
+<p>hexo支持markdown格式文章，电脑端可在建立的共享文件夹中用obsidia软进行markdownbiji的编写。</p>
+<p>手机端可用es文件浏览器自带的编辑软件通过连接外网的FTP在线修改文字。</p>
+<p>然后就用<code>hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</code>查看</p>
+<p>其中<code>hexo s</code>可以加<code>-i &quot;192.168.1.xx&quot;</code>（你希望的内网ip）和<code>-p &quot;xx&quot;</code>（你希望的端口号）两个参数</p>
+<p>确认无误后可以发布一键三连</p>
+<p><code>hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+<p>发布</p>
+<p>至此一款相对安全的、自有跨平台云笔记、云存储安全文件服务器</p>
+<p>打完收工！！</p>
+<hr>
+<p>坑1：Nodejs及其Nodejs下的包管理器npm与hexo有版本匹配的问题，建议使用某大神开发的Node版本管理控制器n来安装</p>
+<p>坑2：加图</p>
+<p>坑3：加字数统计和点击统计</p>
+<p>坑4：发布时，The key you are authenticating with has been marked as read only私钥验证只有可读权限。解决办法如下<img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E7%A7%81%E9%92%A5%E9%AA%8C%E8%AF%812020122601.png" alt="[私钥验证2020122601.png]"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/IT/">IT</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/hexo/">hexo</a><a href="/tags/树莓派4b/">树莓派4b</a><a href="/tags/博客/">博客</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 弈何
+    
+  </p>
+</footer>
+    
+    
+<script>
+    var _hmt = _hmt || [];
+    ( function () {
+        var hm = document.createElement( "script" );
+        hm.src = "https://hm.baidu.com/hm.js?dangeryond";
+        var s = document.getElementsByTagName( "script" )[ 0 ];
+        s.parentNode.insertBefore( hm, s );
+    } )();
+</script>
+
+  </div>
+</div>
+</body>
+</html>

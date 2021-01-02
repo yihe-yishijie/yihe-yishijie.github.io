@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建私有云笔记-技术篇5搭建pptpd | 弈世界 | 认知世界、连通万物</title>
+
+  
+  <meta name="author" content="弈何">
+  
+
+  
+  <meta name="description" content="4、Pptpd（树莓派）（详见后文）
+安装环境：硬件，树莓派4b操作系统，Raspbian GNU/Linux 10 (buster)
+树莓派可以安装pptpd来配置vpn安装pptpdsudo apt-get install pptpd
+配置pptpd ip段，注意要和局域网ip段不同了sudo ">
+  
+
+  
+  <meta name="keywords" content="笔记">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="搭建私有云笔记-技术篇5搭建pptpd"/>
+
+  <meta property="og:site_name" content="弈世界"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="弈世界" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">弈世界</a>
+    </h1>
+    <p class="site-description">认知世界、连通万物</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>搭建私有云笔记-技术篇5搭建pptpd</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/01/02/搭建私有云笔记-技术篇5搭建pptpd/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-02T02:44:02.000Z">
+          2021-01-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h4 id="4、Pptpd（树莓派）"><a href="#4、Pptpd（树莓派）" class="headerlink" title="4、Pptpd（树莓派）"></a>4、Pptpd（树莓派）</h4><p>（详见后文）</p>
+<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<p>树莓派可以安装pptpd来配置vpn<br>安装pptpd<br><code>sudo apt-get install pptpd</code></p>
+<p>配置pptpd ip段，注意要和局域网ip段不同了<br><code>sudo nano /etc/pptpd.conf</code> </p>
+<p>设置ip段，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">localip 192.168.2.1</span><br><span class="line">#虚拟网关</span><br><span class="line">remoteip 192.168.2.20-100,192.168.2.245</span><br><span class="line">#设置ip分配网段</span><br></pre></td></tr></table></figure>
+<p>配置dns<br><code>sudo nano /etc/ppp/pptpd-options</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ms-dns 192.168.1.1</span><br><span class="line">#路由器网关</span><br><span class="line">ms-dns 61.139.2.69</span><br><span class="line">#四川电信DNS</span><br></pre></td></tr></table></figure>
+<p>设置账号密码<br><code>sudo nano /etc/ppp/chap-secrets</code></p>
+<p>格式：账号(tab键或空格)    *    密码    *<br>例如：<br><code>zhangsan    *       9527    *</code></p>
+<p>开启ip转发（主机一般只发送和接受数据报，这是因为主机上/proc/sys/net/ipv4/ip_forward内核参数默认被设置为0。可以修改该值来使能主机的数据报转发功能）<br><code>sudo nano /etc/sysctl.conf</code><br><code>net.ipv4.ip_forward = 1</code></p>
+<p>并执行<br><code>sudo sysctl -p</code></p>
+<p>重启<br><code>sudo service pptpd restart</code></p>
+<p>对有防火墙对要配置防火墙参数。</p>
+<hr>
+<h3 id="5、pptpd手机端Vpn客户端配置"><a href="#5、pptpd手机端Vpn客户端配置" class="headerlink" title="5、pptpd手机端Vpn客户端配置"></a>5、pptpd手机端Vpn客户端配置</h3><p><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%875%E6%90%AD%E5%BB%BApptpd/%E6%89%8B%E6%9C%BApptpdVPN2020122902.png" alt="[手机pptpdVPN2020122902.png]"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 弈何
+    
+  </p>
+</footer>
+    
+    
+<script>
+    var _hmt = _hmt || [];
+    ( function () {
+        var hm = document.createElement( "script" );
+        hm.src = "https://hm.baidu.com/hm.js?dangeryond";
+        var s = document.getElementsByTagName( "script" )[ 0 ];
+        s.parentNode.insertBefore( hm, s );
+    } )();
+</script>
+
+  </div>
+</div>
+</body>
+</html>

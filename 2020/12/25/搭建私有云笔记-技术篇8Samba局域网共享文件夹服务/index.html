@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建私有云笔记-技术篇8Samba局域网共享文件夹服务 | 弈世界 | 认知世界、连通万物</title>
+
+  
+  <meta name="author" content="弈何">
+  
+
+  
+  <meta name="description" content="关键词：IT，树莓派4b，samba，局域网共享文件夹
+安装环境：硬件，树莓派4b操作系统，Raspbian GNU/Linux 10 (buster)
+
+安装 Sambasudo apt-get install samba samba-common-bin配置 Sambasudo nano /et">
+  
+
+  
+  <meta name="keywords" content="笔记">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="搭建私有云笔记-技术篇8Samba局域网共享文件夹服务"/>
+
+  <meta property="og:site_name" content="弈世界"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="弈世界" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">弈世界</a>
+    </h1>
+    <p class="site-description">认知世界、连通万物</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>搭建私有云笔记-技术篇8Samba局域网共享文件夹服务</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇8Samba局域网共享文件夹服务/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T08:02:45.000Z">
+          2020-12-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，树莓派4b，samba，局域网共享文件夹</font></strong></p>
+<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<hr>
+<h4 id="安装-Samba"><a href="#安装-Samba" class="headerlink" title="安装 Samba"></a>安装 Samba</h4><p><code>sudo apt-get install samba samba-common-bin</code><br>配置 Samba<br><code>sudo nano /etc/samba/smb.conf</code><br>末尾加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[共享文件夹名称]</span><br><span class="line">   comment &#x3D; public storage</span><br><span class="line">   path &#x3D; 共享路径</span><br><span class="line">   valid users &#x3D; 希望共享的本地用户</span><br><span class="line">   read only &#x3D; no</span><br><span class="line">   create mask &#x3D; 希望写入文件权限0770</span><br><span class="line">   directory mask &#x3D; 希望的目录创建权限0770</span><br><span class="line">   guest ok &#x3D; no</span><br><span class="line">   browseable &#x3D; yes</span><br><span class="line">   writable &#x3D; no</span><br><span class="line">   write list &#x3D; 希望共享的本地用户</span><br></pre></td></tr></table></figure>
+<p>设置文件权限</p>
+<p>添加 Samba用户并设置密码<br><code>sudo smbpasswd -a 用户名</code></p>
+<p>重启<br><code>sudo samba restart</code></p>
+<hr>
+<h4 id="windows10开启"><a href="#windows10开启" class="headerlink" title="windows10开启"></a>windows10开启</h4><p>修改注册表：<br><strong>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters</strong>]项，在右侧空白处右击鼠标，从其右键新建-“DWORD值（32位）”，重命名为“AllowInsecureGuestAuth<strong>”，同时将其值修改为“</strong>1<strong>”<br>“网络和共享中心”点击左上角的“更</strong>改高级共享设置<strong>”“</strong>来宾或公用<strong>”栏目，勾选“</strong>启用网络发现<strong>”和“</strong>启用文件和打印共享<strong>”项<br>运行“</strong>services.msc<strong>”“</strong>Server”服务设置为“<strong>自动</strong>”，并“启动”<br>重启</p>
+<p>请参考<a target="_blank" rel="noopener" href="https://www.jb51.net/os/win10/438373.html">win10局域网无法访问怎么办? win10网上邻居不能访问其他电脑的解决办法_windows10_Windows系列_操作系统_脚本之家</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/IT/">IT</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/树莓派4b/">树莓派4b</a><a href="/tags/samba/">samba</a><a href="/tags/局域网共享文件夹/">局域网共享文件夹</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 弈何
+    
+  </p>
+</footer>
+    
+    
+<script>
+    var _hmt = _hmt || [];
+    ( function () {
+        var hm = document.createElement( "script" );
+        hm.src = "https://hm.baidu.com/hm.js?dangeryond";
+        var s = document.getElementsByTagName( "script" )[ 0 ];
+        s.parentNode.insertBefore( hm, s );
+    } )();
+</script>
+
+  </div>
+</div>
+</body>
+</html>

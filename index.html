@@ -65,14 +65,136 @@
 
   
     
-    <h3 class="article-title"><a href="/2020/12/25/深度触网-技术篇3VPN/"><span>深度触网-技术篇3Vpn</span></a></h3>
+    <h3 class="article-title"><a href="/2021/01/02/搭建私有云笔记-技术篇5搭建pptpd/"><span>搭建私有云笔记-技术篇5搭建pptpd</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2020/12/25/深度触网-技术篇3VPN/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-25T07:10:12.000Z">
+      <a href="/2021/01/02/搭建私有云笔记-技术篇5搭建pptpd/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-02T02:44:02.000Z">
+          2021-01-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h4 id="4、Pptpd（树莓派）"><a href="#4、Pptpd（树莓派）" class="headerlink" title="4、Pptpd（树莓派）"></a>4、Pptpd（树莓派）</h4><p>（详见后文）</p>
+<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<p>树莓派可以安装pptpd来配置vpn<br>安装pptpd<br><code>sudo apt-get install pptpd</code></p>
+<p>配置pptpd ip段，注意要和局域网ip段不同了<br><code>sudo nano /etc/pptpd.conf</code> </p>
+<p>设置ip段，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">localip 192.168.2.1</span><br><span class="line">#虚拟网关</span><br><span class="line">remoteip 192.168.2.20-100,192.168.2.245</span><br><span class="line">#设置ip分配网段</span><br></pre></td></tr></table></figure>
+<p>配置dns<br><code>sudo nano /etc/ppp/pptpd-options</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ms-dns 192.168.1.1</span><br><span class="line">#路由器网关</span><br><span class="line">ms-dns 61.139.2.69</span><br><span class="line">#四川电信DNS</span><br></pre></td></tr></table></figure>
+<p>设置账号密码<br><code>sudo nano /etc/ppp/chap-secrets</code></p>
+<p>格式：账号(tab键或空格)    *    密码    *<br>例如：<br><code>zhangsan    *       9527    *</code></p>
+<p>开启ip转发（主机一般只发送和接受数据报，这是因为主机上/proc/sys/net/ipv4/ip_forward内核参数默认被设置为0。可以修改该值来使能主机的数据报转发功能）<br><code>sudo nano /etc/sysctl.conf</code><br><code>net.ipv4.ip_forward = 1</code></p>
+<p>并执行<br><code>sudo sysctl -p</code></p>
+<p>重启<br><code>sudo service pptpd restart</code></p>
+<p>对有防火墙对要配置防火墙参数。</p>
+<hr>
+<h3 id="5、pptpd手机端Vpn客户端配置"><a href="#5、pptpd手机端Vpn客户端配置" class="headerlink" title="5、pptpd手机端Vpn客户端配置"></a>5、pptpd手机端Vpn客户端配置</h3><p><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%875%E6%90%AD%E5%BB%BApptpd/%E6%89%8B%E6%9C%BApptpdVPN2020122902.png" alt="[手机pptpdVPN2020122902.png]"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2021/01/02/搭建私有云笔记-技术篇6linux硬盘挂载/"><span>搭建私有云笔记-技术篇6linux硬盘挂载</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/01/02/搭建私有云笔记-技术篇6linux硬盘挂载/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-02T02:42:32.000Z">
+          2021-01-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>查看硬盘</p>
+<p><code>sudo fdisk -l</code></p>
+<p>查看挂载</p>
+<p><code>sudo df -h</code></p>
+<p>格式化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@yishijie:~# parted GNU Parted 3.2 Using &#x2F;dev&#x2F;sda Welcome to GNU Parted! Type &#39;help&#39; to view a list of commands. (parted) mklabel gpt  </span><br><span class="line">Warning: The existing disk label on &#x2F;dev&#x2F;sda will be destroyed and all data on this disk will be lost. Do you want to continue? Yes&#x2F;No? y  </span><br><span class="line">(parted) mkpart  </span><br><span class="line">Partition name? \[\]? yishijie  </span><br><span class="line">File system type? \[ext2\]? ext4</span><br><span class="line"></span><br><span class="line">(parted) mkpart primary 0.00T 100%  </span><br><span class="line">Start? 0  </span><br><span class="line">End? 100%  </span><br><span class="line">Warning: The resulting partition is not properly aligned for best performance. Ignore&#x2F;Cancel? I (parted) print</span><br></pre></td></tr></table></figure>
+<p>我们使用 parted 工具对对硬盘进行分区操作后，我们一定要进行格式化分区才能被使用！<br>使用 mkfs 工具可以方便地对分区进行格式化。</p>
+<p><code>sudo mkfs -t ext4 /dev/sda</code></p>
+<p>查询UUID命令</p>
+<p><code>sudo blkid /dev/sda</code><br>其中/dev/sda为用<code>sudo fdisk -l</code>命令查询的硬盘（u盘）设备名称</p>
+<p>临时挂载，每次关机后挂载会消失，例：<br><code>sudo mount -t ext4 /dev/sda /mnt/yishijie</code></p>
+<p>开机挂载，注意uuid会变</p>
+<p><code>sudo nano /etc/fstab</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;56c8f78c-0e59-4b78-b5f8-d71f36fc558c &#x2F;mnt&#x2F;yishijie ext4 defaults 0 0</span><br><span class="line">&#x2F;yi &#x2F;home&#x2F;yihe&#x2F;yi none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;hexo &#x2F;home&#x2F;yihe&#x2F;hexo none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yihe&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dxz&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yjj&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dy&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;kgh&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;mft&#x2F;共享 none rw,bind 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意：<br>1.硬盘uuid的变化，<br>2.挂载文件夹类型用none，在hexo安装后挂载</p>
+<p>参考文献：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/daydayup654/article/details/78788310">Linux中挂载详解以及mount命令用法_daydayup654的博客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/12/25/搭建私有云笔记-技术篇4树莓派安装/"><span>搭建私有云笔记-技术篇4树莓派安装</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇4树莓派安装/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T08:03:33.000Z">
           2020-12-25
         </time>
       </a>
@@ -85,21 +207,150 @@
   <div class="article-content">
     <div class="entry">
       
-        <p><strong>关键词：<font color="#BF360C">IT，Vpn，华为AR路由器，树莓派4b，pptpd</font></strong></p>
-<h2 id="Vpn"><a href="#Vpn" class="headerlink" title="Vpn"></a>Vpn</h2><p>Vpn是通过加密通讯获得的虚拟专用网络，也称隧道技术，可以帮助我们在内网穿透后比较安全的连入服务器方的（局域）网络。</p>
-<p>Vpn有很多硬件和软件可以实现。<br>弈何采用了华为AR路由器实现了L2tp和IPsec Vpn和树莓派4b实现了pptpd Vpn</p>
+        <p><strong>关键词：<font color="#BF360C">IT，VPN，华为AR路由器，树莓派4b，pptpd</font></strong></p>
+<p>树莓派和Linix</p>
+<h2 id="安装树莓派"><a href="#安装树莓派" class="headerlink" title="安装树莓派"></a>安装树莓派</h2><p>1、修改TF卡名称</p>
+<p>2、用SDFormatter格式化闪存</p>
+<p>3、用Win32DiskImager或Raspberry Pi Imager导入镜像（镜像可在官网下载）</p>
+<p>4、在闪存根目录处创建无后缀名的ssh文本文档，作为树莓派ssh入口</p>
+<p>3、用putty进行远程控制：<a href="mailto:&#x70;&#105;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#46;&#120;">&#x70;&#105;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#46;&#120;</a>（sn:pi/raspberry,ip是树莓派的内网IP可通过路由器或ipscan等方案查询）</p>
+<p>4、修改源<br>树莓派的源在外网，很慢，所以一般更换国内源更好，一般用大学或阿里等的源。</p>
+<p>先查看自己系统的版本<br>树莓派版本查看命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getconf LONG_BIT   # 查看系统位数</span><br><span class="line">lsb_release -a   # 查看操作系统版本</span><br></pre></td></tr></table></figure>
+<p><code>sudo nano /etc/apt/sources.list</code><br>弈何用的清华源：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspbian&#x2F;raspbian&#x2F; buster main non-free contrib rpi</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspbian&#x2F;raspbian&#x2F; buster main non-free contrib rpi</span><br></pre></td></tr></table></figure>
+<p><code> sudo nano /etc/apt/sources.list.d/raspi.list</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspberrypi&#x2F; buster main ui</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspberrypi&#x2F; buster main ui</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>5、获取root权限</p>
+<p><code>sudo passwd root</code><br>设置密码</p>
+<p>6、软件升级</p>
+<p><code>sudo apt-get update &amp;&amp; apt-get upgrade</code></p>
+<p>7、远程连接windows，安装xrdp远程桌面软件</p>
+<p><code>sudo apt-get install xrdp</code></p>
+<p>8、安装火狐（弈何个人爱好）</p>
+<p><code>sudo apt-get install firefox-esr -y</code></p>
+<p>9、删除chromium（弈何个人爱好）</p>
+<p><code>sudo apt-get remove chromium-browser</code></p>
+<p><code>sudo apt-get remove chromium-codecs-ffmpeg-extra</code></p>
+<p>10、修改树莓派配置</p>
+<p><code>sudo raspi-config</code></p>
+<p>配置说明：<br>修改主机名称<br>system options-hostname-改为自己喜欢的名称<br>增加中文字库<br>localisation options-locale zh_ GB2312 GBk UTF-8<br>扩展闪卡容量<br>advances options-expand</p>
+<p>11、设置超级账号 root ALL=(ALL:ALL) ALL</p>
+<p><code>sudo visudo</code></p>
+<p>ps:这里说下你可以sudoers添加下面四行中任意一条</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qie ALL&#x3D;(ALL) ALL</span><br><span class="line">%qie ALL&#x3D;(ALL) ALL</span><br><span class="line">qie ALL&#x3D;(ALL) NOPASSWD: ALL</span><br><span class="line">%qie ALL&#x3D;(ALL) NOPASSWD: ALL</span><br></pre></td></tr></table></figure>
+<p>第一行:允许用户youuser执行sudo命令(需要输入密码).<br>第二行:允许用户组youuser里面的用户执行sudo命令(需要输入密码).<br>第三行:允许用户youuser执行sudo命令,并且在执行的时候不输入密码.<br>第四行:允许用户组youuser里面的用户执行sudo命令,并且在执行的时候不输入密码.</p>
+<p>12、添加谷歌拼音</p>
+<p><code>sudo apt-get install -y fcitx-googlepinyin</code></p>
+<p>13、重启</p>
+<p><code>sudo reboot</code></p>
 <hr>
-<p>华为AR路由器L2tp和IPsec Vpn服务器配置方案：</p>
-<h4 id="1、L2tp-Vpn服务器（华为路由器）"><a href="#1、L2tp-Vpn服务器（华为路由器）" class="headerlink" title="1、L2tp Vpn服务器（华为路由器）"></a>1、L2tp Vpn服务器（华为路由器）</h4><p><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/%E5%8D%8E%E4%B8%BA%E8%B7%AF%E7%94%B1%E5%99%A8L2TP%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E7%BD%AE2020122501.png" alt="[华为路由器L2TP服务器设置2020122501.png]"></p>
-<p>注意，<font color="#BF360C"><strong>网关IP最好不要和原网关（路由器）IP相同</strong></font>。而且服务器配置的网段最好不要与服务器原局域网网段相同（子网掩码255对应的IP地址相同，比如<u>192.168.1.1 子网掩码：255.255.255.0</u>和<u>192.168.1.2 子网掩码：255.255.255.0</u>是一个网段，<u>192.168.1.1：255.255.255.0</u>和<u>192.168.1.2 子：255.255.0.0</u>则不是一个网段，192.168.1.1 255.255.255.0是属于192.168.1.0网段，而192.168.1.2 255.255.0.0是属于192.168.0.0网段。）</p>
-<p>设置了L2tp Vpn后要开通相应的账号才能够连入<br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/%E5%8D%8E%E4%B8%BA%E8%B7%AF%E7%94%B1%E5%99%A8Vpn%E8%B4%A6%E5%8F%B7%E8%AE%BE%E7%BD%AE2020122501.png" alt="[华为路由器Vpn账号设置2020122501.png]"></p>
+<h4 id="linux硬盘挂载"><a href="#linux硬盘挂载" class="headerlink" title="linux硬盘挂载"></a>linux硬盘挂载</h4><hr>
+<p>坑1：远程登陆时数字键盘经常会切换到不能使用（与Num lock指示灯亮否并不完全匹配）导致在密码设置的时候容易出现错误，导致密码错误，</p>
+<p>坑2：家目录内容不能随便删除，否则导致远程登陆无法登陆，需重建家目录：<br>mkdir /home/用户名<br>并将刚创建的目录修改属主和属组<br>chown 属主：属组 -R /home/用户名<br>然后将/etc/skel/.bash_的文件copy到目录下面<br>cp /etc/skel/.bash_ /home/用户名/.bash*<br>并修改属主和属组<br>chown 属主：属组 /home/用户名/.bash*</p>
+<p>坑3：账号和权限</p>
 <hr>
-<h4 id="2、Vpn客户端"><a href="#2、Vpn客户端" class="headerlink" title="2、Vpn客户端"></a>2、Vpn客户端</h4><p>电脑<br>外网客户端配置方案（以windows7为例，window10相同）<br>windows7自带Vpn客户端和服务器工具，可以直接利用之：</p>
-<p><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122501.png" alt="[VPN客户端2020122501.png]"><br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122502.png" alt="[VPN客户端202122506.png]"><br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122503.png" alt="[VPN客户端2020122503.png]"><br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122504.png" alt="[VPN客户端2020122504.png]"><br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122505.png" alt="[VPN客户端2020122505.png]"><br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122506.png" alt="[VPN客户端2020122506.png]"><br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122507.png" alt="[VPN客户端2020122507.png]"><br>注意安全设置<br><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122508.png" alt="[VPN客户端安全设置2020122508.png]"></p>
+<p>参考文献：<br><a target="_blank" rel="noopener" href="https://raspberrypi.club/350.html">树莓派如何安装中文输入法 - 树莓派俱乐部</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/12/25/搭建私有云笔记-技术篇9博客/"><span>搭建私有云笔记-技术篇9博客</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇9博客/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T08:03:09.000Z">
+          2020-12-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，树莓派4b，博客，hexo</font></strong></p>
 <hr>
-<h4 id="3、IPsecVpn（华为路由器）"><a href="#3、IPsecVpn（华为路由器）" class="headerlink" title="3、IPsecVpn（华为路由器）"></a>3、IPsecVpn（华为路由器）</h4><hr>
-<h4 id="4、Pptpd（树莓派）"><a href="#4、Pptpd（树莓派）" class="headerlink" title="4、Pptpd（树莓派）"></a>4、Pptpd（树莓派）</h4><hr>
-<h3 id="5、手机端Vpn客户端配置"><a href="#5、手机端Vpn客户端配置" class="headerlink" title="5、手机端Vpn客户端配置"></a>5、手机端Vpn客户端配置</h3><p>其他还有：树莓派安装openvpn服务器等实现Vpn技术</p>
+<p>现在比较流行的博客包括wordpress，hexo，因为可以生成静态网页，并且免费在github上部署，hexo可以完美支持markdown功能，相比动态博客，hexo低成本易维护，弈何最后选择了hexo。</p>
+<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<hr>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>推荐这篇文章，讲的很详细<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程_Fangzh的技术博客-CSDN博客_hexo</a><br>简述记录过程</p>
+<p>安装Git<br><code>sudo apt-get install git</code><br>安装nodejs</p>
+<p><font color="#BF360C"><strong>Nodejs及其Nodejs下的包管理器npm与hexo有版本匹配的问题，建议使用某大神开发的Node版本管理控制器n来安装</strong></font></p>
+<p>安装nodejs版本控制器<br><code>sudo npm install -g n</code></p>
+<p>安装合适的nodejs版本（需要根据最新的hexo版本选择合适的nodejs和nmp—Node Package Manager,即:node包管理器版本）<br><code>sudo n 12.12.0 alias -g</code></p>
+<p>版本查询网页：<br><a target="_blank" rel="noopener" href="https://nodejs.org/en/download/releases/">Previous Releases | Node.js</a></p>
+<p>安装版本查询<br><code>node -v &amp;&amp; npm -v</code></p>
+<p>切换到安装文件夹后，安装hexo<br><code>npm install hexo</code><br><code>echo &#39;PATH=&quot;$home/yihe/hexo:./node_modules/.bin&quot;&#39; &gt;&gt; ~/.profile</code><br>其中$home/yihe/hexo是你自己的安装路径</p>
+<p>安装完成<br>cd到hexo目录中完成博客初始化<br><code>hexo init blog</code><br>blog是博客的具体目录</p>
+<p>进入目录<br><code>cd blog</code><br>配置环境<br><code>npm install</code></p>
+<hr>
+<h4 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h4><p>在官网选中喜欢的主题后，在其github仓库中找到主题文件的下载地址，然后用<code>git clone</code>命令在themes目录中添加主题<br>例如<br><code>git clone https://github.com/theme-next/hexo-theme-next.git themes/next</code><br>在博客目录/hexo/blog下的node_modules中删除原主题配置文件<code>landscape</code><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E5%88%A0%E9%99%A4%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96%E5%8F%82%E6%95%B02020123101.png" alt="[删除相关依赖参数2020123101.png]"></p>
+<p><font color="#BF360C"><strong>一定注意删除上面的”,”</strong></font></p>
+<p>进入到博客目录下/hexo/blog，修改_config.yml文件中themes的值<br>themes： （你的主题名称，注意前面有一个空格）<br>修改语言等参见官网配置说明</p>
+<hr>
+<h4 id="加分类和标签"><a href="#加分类和标签" class="headerlink" title="加分类和标签"></a>加分类和标签</h4><p><font color="#BF360C"><strong>请阅读自己主题的readme一般有加分类和标签的方法</strong></font></p>
+<p>例如这是我选的hacker的主题开启分类和标签的说明文档：</p>
+<blockquote>
+<p>启用分类和标签页面<br>分类功能：执行 <code>hexo new page categories</code> ，然后修改生成的 <code>source/categories/index.md</code> ：<br>title: 分类<br>date: 2017-01-30 19:16:17<br>layout: “categories”<br>-–<br>如果你需要关闭该页的评论，可以添加一行 <code>comments: false</code>；<code>title</code> 对应的则是该页的标题。<br>标签功能：同理，执行 <code>hexo new page tags</code> ，然后修改生成的 <code>source/tags/index.md</code> ：<br>title: 标签<br>date: 2017-01-30 19:16:17<br>layout: “tags”<br>-–</p>
+</blockquote>
+<hr>
+<h4 id="hexo加图"><a href="#hexo加图" class="headerlink" title="hexo加图"></a>hexo加图</h4><p>参见此贴：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f72aaad7b852">HEXO插入图片（详细版） - 简书</a></p>
+<p>下文为资料存档，避免网页丢失<br>安装插件<br><code>npm install hexo-asset-image --save</code></p>
+<p>修改/hexo/blog的配置文件_config.yml的<br><code>post_asset_folder: true</code><br>打开<br><code>undefined/node_modules/hexo-asset-image/index.js</code>将内容更换为下面的代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;use strict&#x27;</span>;</span><br><span class="line">var cheerio = require(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span><br><span class="line"><span class="keyword">function</span> getPosition(str, m, i) &#123;</span><br><span class="line">  <span class="built_in">return</span> str.split(m, i).join(m).length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var version = String(hexo.version).split(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">hexo.extend.filter.register(<span class="string">&#x27;after_post_render&#x27;</span>, <span class="keyword">function</span>(data)&#123;</span><br><span class="line">  var config = hexo.config;</span><br><span class="line">  <span class="keyword">if</span>(config.post_asset_folder)&#123;</span><br><span class="line">        var link = data.permalink;</span><br><span class="line">    <span class="keyword">if</span>(version.length &gt; 0 &amp;&amp; Number(version[0]) == 3)</span><br><span class="line">       var beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, 1) + 1;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">       var beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, 3) + 1;</span><br><span class="line">    // In hexo 3.1.1, the permalink of <span class="string">&quot;about&quot;</span> page is like <span class="string">&quot;.../about/index.html&quot;</span>.</span><br><span class="line">    var endPos = link.lastIndexOf(<span class="string">&#x27;/&#x27;</span>) + 1;</span><br><span class="line">    link = link.substring(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    var toprocess = [<span class="string">&#x27;excerpt&#x27;</span>, <span class="string">&#x27;more&#x27;</span>, <span class="string">&#x27;content&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(var i = 0; i &lt; toprocess.length; i++)&#123;</span><br><span class="line">      var key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      var $ = cheerio.load(data[key], &#123;</span><br><span class="line">        ignoreWhitespace: <span class="literal">false</span>,</span><br><span class="line">        xmlMode: <span class="literal">false</span>,</span><br><span class="line">        lowerCaseTags: <span class="literal">false</span>,</span><br><span class="line">        decodeEntities: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">&#x27;img&#x27;</span>).each(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        <span class="keyword">if</span> ($(this).attr(<span class="string">&#x27;src&#x27;</span>))&#123;</span><br><span class="line">            // For windows style path, we replace <span class="string">&#x27;\&#x27;</span> to <span class="string">&#x27;/&#x27;</span>.</span><br><span class="line">            var src = $(this).attr(<span class="string">&#x27;src&#x27;</span>).replace(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span>(!/http[s]*.*|\/\/.*/.<span class="built_in">test</span>(src) &amp;&amp;</span><br><span class="line">               !/^\s*\//.<span class="built_in">test</span>(src)) &#123;</span><br><span class="line">              // For <span class="string">&quot;about&quot;</span> page, the first part of <span class="string">&quot;src&quot;</span> can<span class="string">&#x27;t be removed.</span></span><br><span class="line"><span class="string">              // In addition, to support multi-level local directory.</span></span><br><span class="line"><span class="string">              var linkArray = link.split(&#x27;</span>/<span class="string">&#x27;).filter(function(elem)&#123;</span></span><br><span class="line"><span class="string">                return elem != &#x27;</span><span class="string">&#x27;;</span></span><br><span class="line"><span class="string">              &#125;);</span></span><br><span class="line"><span class="string">              var srcArray = src.split(&#x27;</span>/<span class="string">&#x27;).filter(function(elem)&#123;</span></span><br><span class="line"><span class="string">                return elem != &#x27;</span><span class="string">&#x27; &amp;&amp; elem != &#x27;</span>.<span class="string">&#x27;;</span></span><br><span class="line"><span class="string">              &#125;);</span></span><br><span class="line"><span class="string">              if(srcArray.length &gt; 1)</span></span><br><span class="line"><span class="string">                srcArray.shift();</span></span><br><span class="line"><span class="string">              src = srcArray.join(&#x27;</span>/<span class="string">&#x27;);</span></span><br><span class="line"><span class="string">              $(this).attr(&#x27;</span>src<span class="string">&#x27;, config.root + link + src);</span></span><br><span class="line"><span class="string">              console.info&amp;&amp;console.info(&quot;update link as:--&gt;&quot;+config.root + link + src);</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        &#125;else&#123;</span></span><br><span class="line"><span class="string">            console.info&amp;&amp;console.info(&quot;no src attr, skipped...&quot;);</span></span><br><span class="line"><span class="string">            console.info&amp;&amp;console.info($(this));</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;);</span></span><br><span class="line"><span class="string">      data[key] = $.html();</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;);</span></span><br></pre></td></tr></table></figure>
+<p>然后就可以在markdown中直接插入图片了<br>插入格式<br><code>![图片名称](图片名称.后缀名)</code><br>图片会放在同名文件夹中。</p>
+<hr>
+<h4 id="git推送"><a href="#git推送" class="headerlink" title="git推送"></a>git推送</h4><p>GitHub创建个人仓库<br>注册<br>创建一个和你用户名相同的仓库，后面加.github.io<br>生成SSH添加到GitHub</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+<p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code><br>在.ssh文件中找到公共秘钥<code>id_rsa.pub</code><br>将其复制到GitHub仓库的设置-密钥中<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/github%E5%AF%86%E9%92%A52020123102.png" alt="[github密钥2020123102.png]"></p>
+<p>github是外网，弈何测试过在国内联通手机不用wifi不能直接打开，可以在配一个gitee仓库</p>
+<p>在gitee配置相同</p>
+<p>修改：<code>_config.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">        github: git@github.com:用户名&#x2F;用户名.github.io.git</span><br><span class="line">        gitee: git@gitee.com:用户名&#x2F;用户名.git</span><br><span class="line">  branch: master</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>安装deploy-git<br><code>npm install hexo-deployer-git --save</code></p>
+<p>写文章<br><code>hexo n &quot;文章题目&quot;</code></p>
+<p>hexo支持markdown格式文章，电脑端可在建立的共享文件夹中用obsidia软进行markdownbiji的编写。</p>
+<p>手机端可用es文件浏览器自带的编辑软件通过连接外网的FTP在线修改文字。</p>
+<p>然后就用<code>hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</code>查看</p>
+<p>其中<code>hexo s</code>可以加<code>-i &quot;192.168.1.xx&quot;</code>（你希望的内网ip）和<code>-p &quot;xx&quot;</code>（你希望的端口号）两个参数</p>
+<p>确认无误后可以发布一键三连</p>
+<p><code>hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+<p>发布</p>
+<p>至此一款相对安全的、自有跨平台云笔记、云存储安全文件服务器</p>
+<p>打完收工！！</p>
+<hr>
+<p>坑1：Nodejs及其Nodejs下的包管理器npm与hexo有版本匹配的问题，建议使用某大神开发的Node版本管理控制器n来安装</p>
+<p>坑2：加图</p>
+<p>坑3：加字数统计和点击统计</p>
+<p>坑4：发布时，The key you are authenticating with has been marked as read only私钥验证只有可读权限。解决办法如下<img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E5%8D%9A%E5%AE%A2/%E7%A7%81%E9%92%A5%E9%AA%8C%E8%AF%812020122601.png" alt="[私钥验证2020122601.png]"></p>
 
       
     </div>
@@ -123,7 +374,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/tags/IT/">IT</a><a href="/tags/Vpn/">Vpn</a><a href="/tags/华为AR路由器/">华为AR路由器</a><a href="/tags/树莓派4b/">树莓派4b</a><a href="/tags/pptpd/">pptpd</a>
+        <a href="/tags/IT/">IT</a><a href="/tags/hexo/">hexo</a><a href="/tags/树莓派4b/">树莓派4b</a><a href="/tags/博客/">博客</a>
     </span>
     
 
@@ -139,13 +390,257 @@
 
   
     
-    <h3 class="article-title"><a href="/2020/12/25/深度触网-技术篇2远程控制/"><span>深度触网和大玩家-技术篇2远程控制</span></a></h3>
+    <h3 class="article-title"><a href="/2020/12/25/搭建私有云笔记-技术篇8Samba局域网共享文件夹服务/"><span>搭建私有云笔记-技术篇8Samba局域网共享文件夹服务</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2020/12/25/深度触网-技术篇2远程控制/" rel="bookmark">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇8Samba局域网共享文件夹服务/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T08:02:45.000Z">
+          2020-12-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，树莓派4b，samba，局域网共享文件夹</font></strong></p>
+<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<hr>
+<h4 id="安装-Samba"><a href="#安装-Samba" class="headerlink" title="安装 Samba"></a>安装 Samba</h4><p><code>sudo apt-get install samba samba-common-bin</code><br>配置 Samba<br><code>sudo nano /etc/samba/smb.conf</code><br>末尾加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[共享文件夹名称]</span><br><span class="line">   comment &#x3D; public storage</span><br><span class="line">   path &#x3D; 共享路径</span><br><span class="line">   valid users &#x3D; 希望共享的本地用户</span><br><span class="line">   read only &#x3D; no</span><br><span class="line">   create mask &#x3D; 希望写入文件权限0770</span><br><span class="line">   directory mask &#x3D; 希望的目录创建权限0770</span><br><span class="line">   guest ok &#x3D; no</span><br><span class="line">   browseable &#x3D; yes</span><br><span class="line">   writable &#x3D; no</span><br><span class="line">   write list &#x3D; 希望共享的本地用户</span><br></pre></td></tr></table></figure>
+<p>设置文件权限</p>
+<p>添加 Samba用户并设置密码<br><code>sudo smbpasswd -a 用户名</code></p>
+<p>重启<br><code>sudo samba restart</code></p>
+<hr>
+<h4 id="windows10开启"><a href="#windows10开启" class="headerlink" title="windows10开启"></a>windows10开启</h4><p>修改注册表：<br><strong>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters</strong>]项，在右侧空白处右击鼠标，从其右键新建-“DWORD值（32位）”，重命名为“AllowInsecureGuestAuth<strong>”，同时将其值修改为“</strong>1<strong>”<br>“网络和共享中心”点击左上角的“更</strong>改高级共享设置<strong>”“</strong>来宾或公用<strong>”栏目，勾选“</strong>启用网络发现<strong>”和“</strong>启用文件和打印共享<strong>”项<br>运行“</strong>services.msc<strong>”“</strong>Server”服务设置为“<strong>自动</strong>”，并“启动”<br>重启</p>
+<p>请参考<a target="_blank" rel="noopener" href="https://www.jb51.net/os/win10/438373.html">win10局域网无法访问怎么办? win10网上邻居不能访问其他电脑的解决办法_windows10_Windows系列_操作系统_脚本之家</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/IT/">IT</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/树莓派4b/">树莓派4b</a><a href="/tags/samba/">samba</a><a href="/tags/局域网共享文件夹/">局域网共享文件夹</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/12/25/搭建私有云笔记-技术篇7Vsftp/"><span>搭建私有云笔记-技术篇7Vsftp</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇7Vsftp/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T08:02:20.000Z">
+          2020-12-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，树莓派4b，Vsftpd</font></strong></p>
+<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<hr>
+<h3 id="1、Vsftpd（树莓派）"><a href="#1、Vsftpd（树莓派）" class="headerlink" title="1、Vsftpd（树莓派）"></a>1、Vsftpd（树莓派）</h3><p>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<h5 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h5><p>启动vsftp:<br><code>sudo service vsftpd start</code><br>也可以用：<br><code>sudo /etc/init.d/vsftpd start</code><br>或<br><code>sudo systemctl start vsftpd</code><br>重启vsftp:<br><code>sudo service vsftpd restart</code><br>关闭<br><code>sudo service vsftpd stop</code><br>查看状态<br><code>sudo service vsftpd status</code><br>或<br><code>sudo systemctl status vsftpd</code></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>安装<br><code>sudo apt-get install vsftpd</code><br>启动<br><code>sudo service vsftpd start</code><br>修改配置<br><code>sudo nano /etc/vsftpd.conf</code><br>用我的配置作为实例（需求，虚拟账户，每人一个个人文件夹和一个共享文件夹，不能离开自己的主目录，可ssl加密，外网可连接）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">listen&#x3D;YES</span><br><span class="line">listen_ipv6&#x3D;NO</span><br><span class="line">anonymous_enable&#x3D;NO</span><br><span class="line">local_enable&#x3D;YES</span><br><span class="line">write_enable&#x3D;NO</span><br><span class="line">#在个人账户配置中单独打开可写</span><br><span class="line">#local_umask&#x3D;022</span><br><span class="line">#在个人账户配置中单独配置写权限，022对应的文件权限是6-0、6-2、6-2，即644（读写、读、读）对应文件夹权限是7-0、7-2、7-2，即755（读写执行、读执行、读执行）执行这里才可看见下级目录</span><br><span class="line">#anon_upload_enable&#x3D;YES</span><br><span class="line">#匿名可上传</span><br><span class="line">#anon_mkdir_write_enable&#x3D;YES</span><br><span class="line">#匿名可建目录</span><br><span class="line">dirmessage_enable&#x3D;YES</span><br><span class="line">use_localtime&#x3D;YES</span><br><span class="line">xferlog_enable&#x3D;YES</span><br><span class="line">connect_from_port_20&#x3D;NO</span><br><span class="line">ftp_data_port&#x3D;xxx</span><br><span class="line">#关闭20端口，修改为你想要的端口</span><br><span class="line">#chown_uploads&#x3D;YES</span><br><span class="line">#chown_username&#x3D;whoever</span><br><span class="line">#xferlog_file&#x3D;&#x2F;var&#x2F;log&#x2F;vsftpd.log</span><br><span class="line">#xferlog_std_format&#x3D;YES</span><br><span class="line">#idle_session_timeout&#x3D;600</span><br><span class="line">#data_connection_timeout&#x3D;120</span><br><span class="line">#nopriv_user&#x3D;ftpsecure</span><br><span class="line">#async_abor_enable&#x3D;YES</span><br><span class="line">#ascii_upload_enable&#x3D;YES</span><br><span class="line">#ascii_download_enable&#x3D;YES</span><br><span class="line">#ftpd_banner&#x3D;Welcome to blah FTP service.</span><br><span class="line">#deny_email_enable&#x3D;YES</span><br><span class="line">#banned_email_file&#x3D;&#x2F;etc&#x2F;vsftpd.banned_emails</span><br><span class="line">#</span><br><span class="line">#ls_recurse_enable&#x3D;YES</span><br><span class="line">secure_chroot_dir&#x3D;&#x2F;var&#x2F;run&#x2F;vsftpd&#x2F;empty</span><br><span class="line">pam_service_name&#x3D;vsftpd</span><br><span class="line">#</span><br><span class="line">#ssl加密配置，放开参数注释即可用</span><br><span class="line">#ssl_enable&#x3D;YES</span><br><span class="line">#allow_anon_ssl&#x3D;YES</span><br><span class="line">#force_local_data_ssl&#x3D;NO</span><br><span class="line">#force_local_logins_ssl&#x3D;YES</span><br><span class="line">#force_anon_logins_ssl&#x3D;YES</span><br><span class="line">#force_anon_data_ssl&#x3D;YES</span><br><span class="line">#require_ssl_reuse&#x3D;NO</span><br><span class="line">#原来是FTP的require_ssl_reuse&#x3D;YES导致的;</span><br><span class="line">#此时所有SSL数据连接都需要显示SSL会话重用;</span><br><span class="line">#证明他们知道与控制信道相同的主秘钥，解决方案，变成NO</span><br><span class="line">#ssl_tlsv1&#x3D;YES</span><br><span class="line">#ssl_sslv2&#x3D;NO</span><br><span class="line">#ssl_sslv3&#x3D;NO</span><br><span class="line">#rsa_cert_file&#x3D;&#x2F;etc&#x2F;xxx&#x2F;vsftpd.pem</span><br><span class="line">#密钥放置的位置</span><br><span class="line">#ssl_ciphers&#x3D;HIGH</span><br><span class="line">#FileZilla不支持默认密码(DES-CBC3-SHA)，加入后手机可ssl</span><br><span class="line">#</span><br><span class="line">#utf8_filesystem&#x3D;YES</span><br><span class="line">#</span><br><span class="line">#虚拟用户配置：</span><br><span class="line">guest_enable&#x3D;YES</span><br><span class="line">guest_username&#x3D;vsftpd</span><br><span class="line">#虚拟账户映射到本地账户vsftpd</span><br><span class="line">chroot_local_user&#x3D;YES</span><br><span class="line">chroot_list_enable&#x3D;NO</span><br><span class="line">#限制账户不能离开家目录，对应个人配置文件</span><br><span class="line">#chroot_list_file&#x3D;&#x2F;etc&#x2F;vsftpd.chroot_list</span><br><span class="line">user_config_dir&#x3D;&#x2F;etc&#x2F;vsftpd&#x2F;xxxxxxx（修改为你想要的文件，一般是xxconf）</span><br><span class="line">#个人配置文件存放</span><br><span class="line">allow_writeable_chroot&#x3D;NO</span><br><span class="line">#根目录不可写</span><br><span class="line">#</span><br><span class="line">#开启被动模式，使得公网能够登录</span><br><span class="line">pasv_enable&#x3D;YES</span><br><span class="line">#是否允许被动模式：是</span><br><span class="line">pasv_promiscuous&#x3D;YES</span><br><span class="line">#此选项激活将关闭PASV模式的安全检查。该检查确保数据连接和控制连接是来自同一个ip地址。</span><br><span class="line">#此选项唯一合理的用法是存在于由安全隧道方案构成的组织中。默认值为NO。</span><br><span class="line">#合理的用法是：在一些安全隧道配置环境下，或者更好地支持FXP时(才启用它)。</span><br><span class="line">pasv_min_port&#x3D;（你希望的被动传输端口号最小值）</span><br><span class="line">pasv_max_port&#x3D;（你希望的被动传输端口号最大值）</span><br><span class="line">listen_port&#x3D;（你希望的端口号）</span><br><span class="line">tcp_wrappers&#x3D;YES</span><br><span class="line">pasv_addr_resolve&#x3D;YES</span><br><span class="line">pasv_address&#x3D;xxx.xxx.xxx(你的网址)</span><br><span class="line">tcp_wrappers&#x3D;YES</span><br><span class="line">#安全机制</span><br><span class="line">#userlist_enable&#x3D;YES</span><br><span class="line">#userlist_deny&#x3D;YES</span><br><span class="line">#黑白名单</span><br><span class="line">#max_clients&#x3D;x</span><br><span class="line">#限制同一时间最多有多少client可以同时连vsftpd。</span><br><span class="line">#max_per_ip&#x3D;x</span><br><span class="line">#同一个ip同一时间可允许多少连接</span><br></pre></td></tr></table></figure>
+<p>建立虚拟账户映射的本地账户vsftpd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd vsftpd -d &#x2F;home&#x2F;vsftpd -s &#x2F;bin&#x2F;false sudo </span><br><span class="line">sudo chown -R vsftpd:vsftpd &#x2F;home&#x2F;vsftpd</span><br></pre></td></tr></table></figure>
+<p>创建虚拟用户数据库<br>在/etc/vsftpd目录下新建login.txt文件，<br><code>sudo nano /etc/vsftpd/login.txt</code></p>
+<p>在里面输入虚拟用户名和密码，格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a</span><br><span class="line">123456</span><br><span class="line">b</span><br><span class="line">123456</span><br></pre></td></tr></table></figure>
+<p>注意不要多空格和空行，其中奇数行为用户名，偶数行为密码。<br>最后一行需要回车（否则建立数据库文件时无法识别最后一行，导致报奇数行错误）。</p>
+<p>安装DbUtil（apache旗下的一个JDBC封装的开源工具jar包，使用它调用数据库CRUD操作非常简便。）<br>sudo apt-get install db-util<br>安装完成后，使用db_load命令生成认证文件<br><code>sudo db_load -T -t hash -f /etc/vsftpd/login.list /etc/vsftpd/login.db</code></p>
+<p>最后设置一下数据库文件的访问权限<br><code>sudo chmod 600 /etc/vsftpd/login.db</code></p>
+<p>配置PAM文件</p>
+<p>新建/etc/pam.d/vsftpd.vu，并编辑，<br><code>sudo touch /etc/pam.d/vsftpd.vu</code><br> <code>sudo nano /etc/pam.d/vsftpd.vu</code></p>
+<p> 输入内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auth sufficient &#x2F;usr&#x2F;lib&#x2F;arm-linux-gnueabihf&#x2F;security&#x2F;pam_userdb.so db&#x3D;&#x2F;etc&#x2F;vsftpd&#x2F;login</span><br><span class="line">account sufficient &#x2F;usr&#x2F;lib&#x2F;arm-linux-gnueabihf&#x2F;security&#x2F;pam_userdb.so db&#x3D;&#x2F;etc&#x2F;vsftpd&#x2F;login</span><br></pre></td></tr></table></figure>
+<p><font color="#BF360C"><strong>注意查询pam_userdb.so所在的目录，可用whereis查询</strong></font></p>
+<p>配置虚拟用户参数<br>/etc/vsftpd/xxxxxxx目录下配置<br>账户a</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">local_root&#x3D;&#x2F;home&#x2F;xxx</span><br><span class="line">#你想要的目录位置</span><br><span class="line">anon_umask&#x3D;007</span><br><span class="line">#虚拟账户读写权限</span><br><span class="line">anon_world_readable_only&#x3D;NO</span><br><span class="line">#虚拟账户用户浏览权限 </span><br><span class="line">anon_mkdir_write_enable&#x3D;YES</span><br><span class="line">#虚拟账户创建目录的同时可以在此目录中上传文件</span><br><span class="line">anon_upload_enable&#x3D;YES</span><br><span class="line">#虚拟账户用户上传权限 </span><br><span class="line">anon_other_write_enable&#x3D;YES</span><br><span class="line">#虚拟账户帐号可以有删除的权限</span><br><span class="line">write_enable&#x3D;YES</span><br><span class="line">#写权限</span><br></pre></td></tr></table></figure>
+<p>账户b<br><code>略</code></p>
+<p>ssl加密<br>查看vsftpd是否支持ssl<br><code>ldd `which vsftpd`|grep ssl</code></p>
+<p>cd到希望保存密钥的目录下，使用openssl生成ssl秘钥文件（没有openssl需安装）<br>生成私钥<br><code>openssl req -newkey rsa:2048 -nodes -keyout vsftpd_private.key -x509 -days 365</code><br>用私钥生成证书<br><code>openssl req -new -x509 -days 365 -key vsftpd_private.key -out vsftpd_cert.pem</code></p>
+<p>设置ssl证书密钥信息，注意主机名称<br><code>cp vsftpd.pem /etc/xxx/vsftpd.pem</code><br><code>chmod 400 /etc/xxx/vsftpd.pem</code></p>
+<p>重启动<br><code>sudo service vsftpd restart</code></p>
+<hr>
+<h3 id="2、filezilla（ftp）客户端"><a href="#2、filezilla（ftp）客户端" class="headerlink" title="2、filezilla（ftp）客户端"></a>2、filezilla（ftp）客户端</h3><p>配置<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%877Vsftp/filezilla%E8%AE%BE%E7%BD%AE2020123101.png" alt="[filezilla设置2020123101.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%877Vsftp/filezilla%E8%AE%BE%E7%BD%AE2020123102.png" alt="[filezilla设置2020123102.png]"><br>如果不能登录则将传输设置改为主动模式</p>
+<p>公网登录同理，主机填写网址，如果不能登录则将传输设置改为被动模式</p>
+<p>###3、手机端配置<br>建议用ES文件浏览器配置类似<br>且如果开发了权限，FTP手机端可在线写入</p>
+<p>坑：<br>1、配置文件中参数有空格或者错字<br>2、虚拟账户对应的本地账户必须有家目录，但可以没有密码<br>3、listen、listen_ipv6不可同时选YES<br>4、注意根目录权限为不可写（更安全）且操作目录的属主和权限要与登录虚拟账户对应的本地账户对应。<br>5、关于加入了pasv_address=xxx.xxx.xxx(你的网址)参数，无法开机启动的问题，用/etc/rc.local添加开机启动命令，注意vsftpd需要一定的配置环境，所以立即开机启动无法运行，需要延时执行，在exit 0前添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sleep 50</span><br><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;vsftpd restart</span><br></pre></td></tr></table></figure>
+<p>6、配置文件的所有者所有者为root，权限为644<br>包括放在user_config_dir=/etc/vsftpd/xxxxxxx的虚拟账户配置文件<br>对应错误代码500OOPS: config file not owned by correct user, or not a file:</p>
+<p>附：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/miclesvic/articles/10437213.html">vsftpd配置文件参数详解 - miclesvic - 博客园</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/IT/">IT</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/树莓派/">树莓派</a><a href="/tags/vsftpd/">vsftpd</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/12/25/搭建私有云笔记-技术篇3VPN/"><span>搭建私有云笔记-技术篇3VPN</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇3VPN/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T07:10:12.000Z">
+          2020-12-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，VPN，华为AR路由器，树莓派4b，pptpd</font></strong></p>
+<hr>
+<h2 id="VPN"><a href="#VPN" class="headerlink" title="VPN"></a>VPN</h2><p>VPN是通过加密通讯获得的虚拟专用网络，也称隧道技术，可以帮助我们在内网穿透后比较安全的连入服务器方的（局域）网络。</p>
+<p>有很多硬件搭配软件都可以实现VPN。</p>
+<p>弈何采用了华为AR路由器实现了L2tp和IPsec VPN和树莓派4b实现了pptpd VPN两种方式，树莓派也可以采用openVPN提高安全性。</p>
+<hr>
+<p>华为AR路由器L2tp和IPsec VPN服务器配置方案：</p>
+<h4 id="1、L2tp-VPN服务器（华为路由器）"><a href="#1、L2tp-VPN服务器（华为路由器）" class="headerlink" title="1、L2tp VPN服务器（华为路由器）"></a>1、L2tp VPN服务器（华为路由器）</h4><p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/%E5%8D%8E%E4%B8%BA%E8%B7%AF%E7%94%B1%E5%99%A8L2TP%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E7%BD%AE2020122501.png" alt="[华为路由器L2TP服务器设置2020122501.png]"></p>
+<p>注意，<font color="#BF360C"><strong>网关ip最好不要和原网关（路由器）ip相同</strong></font>。而且服务器配置的网段最好不要与服务器原局域网网段相同（子网掩码255对应的ip地址相同，比如<u>192.168.1.1 子网掩码：255.255.255.0</u>和<u>192.168.1.2 子网掩码：255.255.255.0</u>是一个网段，<u>192.168.1.1：255.255.255.0</u>和<u>192.168.1.2 子：255.255.0.0</u>则不是一个网段，192.168.1.1 255.255.255.0是属于192.168.1.0网段，而192.168.1.2 255.255.0.0是属于192.168.0.0网段。）</p>
+<p>设置了L2tp VPN后要开通相应的账号才能够连入<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/%E5%8D%8E%E4%B8%BA%E8%B7%AF%E7%94%B1%E5%99%A8VPN%E8%B4%A6%E5%8F%B7%E8%AE%BE%E7%BD%AE2020122501.png" alt="[华为路由器VPN账号设置2020122501.png]"></p>
+<hr>
+<h4 id="2、VPN客户端"><a href="#2、VPN客户端" class="headerlink" title="2、VPN客户端"></a>2、VPN客户端</h4><p>安装环境：<br>硬件，电脑<br>操作系统，windows7，window10</p>
+<p>windows自带VPN客户端和服务器工具，可以直接利用之：</p>
+<p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122501.png" alt="[VPN客户端2020122501.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122502.png" alt="[VPN客户端202122506.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122503.png" alt="[VPN客户端2020122503.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122504.png" alt="[VPN客户端2020122504.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122505.png" alt="[VPN客户端2020122505.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122506.png" alt="[VPN客户端2020122506.png]"><br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122507.png" alt="[VPN客户端2020122507.png]"><br>注意安全设置<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/VPN%E5%AE%A2%E6%88%B7%E7%AB%AF2020122508.png" alt="[VPN客户端安全设置2020122508.png]"></p>
+<p><font color="#BF360C"><strong>配置客户端坑：windows7 VPN 错误800，或windows10出现，L2TP因为安全层在初始化与远程计算机的协商时遇到了一个处理错误</strong></font><br>常见原因：<br>由于配置异常造成的无法连接，虽然用户没有做过任何的配置修改，但由于系统内部的故障会导致配置（注册表信息）出现异常，这是Windows系统中常见的问题</p>
+<p>华为ar路由器解决办法：修改Windows注册表，不使用数字证书认证功能。<br>单击“开始 &gt; 运行”，输入regedit打开注册表，找到路径在左侧注册表项目中逐级找到：HKEY_LOCAL_MACHINE/System/CurrentControlSet/Services/Rasman/Parameters，单击Parameters参数，接着在右边窗口空白处单击鼠标右键，选择［新建/双字节值］并新建一个注册表值（名称为ProhibitIPSec，值为1），重启</p>
+<hr>
+<h4 id="3、IPsecVPN（华为路由器）"><a href="#3、IPsecVPN（华为路由器）" class="headerlink" title="3、IPsecVPN（华为路由器）"></a>3、IPsecVPN（华为路由器）</h4><p>ACL（访问控制列表）配置<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/%E5%8D%8E%E4%B8%BA%E8%B7%AF%E7%94%B1%E5%99%A8ACL2020122801.png" alt="[华为路由器ACL2020122801.png]"></p>
+<p>IPsec VPN配置<br><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%873VPN/%E5%8D%8E%E4%B8%BA%E8%B7%AF%E7%94%B1%E5%99%A8IPsecVPN2020122901.png" alt="[华为路由器IPsecVPN2020122901.png]"></p>
+<hr>
+<p>其他还有：树莓派安装openVPN服务器等实现VPN技术</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/IT/">IT</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/VPN/">VPN</a><a href="/tags/华为AR路由器/">华为AR路由器</a><a href="/tags/树莓派4b/">树莓派4b</a><a href="/tags/pptpd/">pptpd</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/12/25/搭建私有云笔记-技术篇2远程控制和关机/"><span>搭建私有云笔记-技术篇2远程控制和关机</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇2远程控制和关机/" rel="bookmark">
         <time class="entry-date published" datetime="2020-12-25T02:25:59.000Z">
           2020-12-25
         </time>
@@ -160,21 +655,26 @@
     <div class="entry">
       
         <p><strong>关键词：<font color="#BF360C">IT，远程控制，mstsc，xrdp</font></strong></p>
+<hr>
 <h2 id="远程控制"><a href="#远程控制" class="headerlink" title="远程控制"></a>远程控制</h2><h4 id="windows间的远程控制"><a href="#windows间的远程控制" class="headerlink" title="windows间的远程控制"></a>windows间的远程控制</h4><p>方法1：可以使用QQ的请求控制对方电脑，并在需要控制的电脑端设置开机启动qq，再QQ的请求控制电脑的设置中配置自动接受连接请求。</p>
 <p>方法2：使用微软的远程桌面协助，非常方便，且速度快，无延迟。开通后，输入IP+端口号，或者输入域名+端口号，即可连接（设备端口号一般是3389，路由器对外的端口号可以换一个任意端口号增加安全性。路由器外网可以更换远程关机可以使用运行shutdown -t -s 0命令）<br>包括windows自带的远程桌面，速度快，和第三方远程桌面软件：如qq远程控制等</p>
 <p>windows远程桌面设置：  </p>
-<p><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122501.png]"></p>
-<p><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122502.png]"></p>
+<p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122501.png]"></p>
+<p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122502.png]"></p>
 <p>windows连接设置：  </p>
-<p><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122503.png" alt="[远程桌面2020122503.png]"></p>
+<p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122503.png" alt="[远程桌面2020122503.png]"></p>
 <p>或者  </p>
-<p><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122504.png]"></p>
+<p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122504.png]"></p>
 <p><font color="#BF360C"><strong>运行：mstsc</strong></font><br>填入ip（域名）和相应端口，如3389  </p>
-<p><img src="/2020/12/25/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122505.png]"></p>
+<p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122505.png]"></p>
 <p>填入用户名和密码</p>
 <p>方法3：其他远程软件也提供远程控制功能。</p>
 <hr>
 <h4 id="windows对树莓派的远程控制"><a href="#windows对树莓派的远程控制" class="headerlink" title="windows对树莓派的远程控制"></a>windows对树莓派的远程控制</h4><p>可以使用<font color="#BF360C"><strong>ssh</strong></font>用命令行远程控制<br>也可以使用<font color="#BF360C"><strong>xrdp</strong></font>和其他远程桌面VNC 远程连接软件等</p>
+<hr>
+<h2 id="远程关机"><a href="#远程关机" class="headerlink" title="远程关机"></a>远程关机</h2><p>方案1<br>在远程控制桌面<br>运行命令（Ctrl+r）<br><code>shutdown -t -s 0</code><br>-t关机<br>-s执行命令时间<br>0，秒，可以根据需要设计延时关机的时间<br>-r重启</p>
+<p>方案2，用一些远程控制软件开关机</p>
+<p>方案3，连入VPN后，用局域网开关机控制软件进行远程关机。</p>
 
       
     </div>
@@ -214,13 +714,13 @@
 
   
     
-    <h3 class="article-title"><a href="/2020/12/23/深度触网-技术篇1远程开机/"><span>深度触网和大玩家-技术篇1远程开机</span></a></h3>
+    <h3 class="article-title"><a href="/2020/12/23/搭建私有云笔记-技术篇1远程开机/"><span>搭建私有云笔记-技术篇1远程开机</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2020/12/23/深度触网-技术篇1远程开机/" rel="bookmark">
+      <a href="/2020/12/23/搭建私有云笔记-技术篇1远程开机/" rel="bookmark">
         <time class="entry-date published" datetime="2020-12-23T08:02:32.000Z">
           2020-12-23
         </time>
@@ -234,45 +734,63 @@
   <div class="article-content">
     <div class="entry">
       
-        <p><strong>关键词：<font color="#BF360C">IT，智能插座，内网穿透，远程开机</font></strong></p>
-<p><font color="#BF360C"><strong>阅读说明：本系列为个人重要技术资料存档，记录1个多月弈何搭建安全私有云笔记服务器和弈何遭遇的各种坑，适合有硬核需求的技术派小白直男阅读。</strong></font></p>
+        <p><strong>关键词：<font color="#BF360C">IT，智能插座，通电唤醒，内网穿透，公网ip,动态域名服务，动态域名服务，端口映射，远程开机，主板网卡唤醒 ，坑</font></strong></p>
+<p><font color="#BF360C"><strong>阅读说明：本系列为个人重要技术资料备忘存档，记录1个多月弈何搭建安全的、私有云笔记、云存储服务器跨越各种坑的经过，适合有硬核需求的技术派小白直男阅读。谨慎进入</strong></font></p>
 <p>入门可用级别</p>
-<p>本系列有大量引用，因为当时未做记录，加之工作量巨大，无法附上备注。<br>本文系直接解决问题的，弈何亲测可行。部分基础知识不牢，可能存在理论解释上的错误。欢迎交流，<br>行文时间为2020年11月到12月，支持本期大部分软件、硬件、网络环境。</p>
+<p>本系列有大量引用，因为当时部署服务器时未做记录，加之工作量巨大，未附上引用备注。</p>
+<p>因为IT零基础，基础知识不牢，可能存在理论解释上的错误。欢迎交流，</p>
+<p>行文时间为2020年11月到12月，支持本期大部分软件、硬件、网络环境。</p>
+<p>PS：<font color="#BF360C"><strong>关于预算，弈何走了不少弯路，大概花了2400多，如果最便宜的方案3~400元能够搞定。买一台树莓派和一个u盘即可。要求高可以再加一个带电源的移动硬盘</strong></font>。最后一文总回顾会详细总结。</p>
 <hr>
-<p>本系列涉及主要硬件：台式电脑，智能插座，华为AR路由器、树莓派</p>
-<p>本系列涉及技术包括：远程开机，内网穿透（获取公网ip，光猫桥接，端口映射，动态域名服务——DDNS），vpn（虚拟专线-网络安全），ftp、局域网（文件传输），博客（学习笔记、知识整沉淀）</p>
+<p>本系列涉及主要硬件：台式电脑，智能插座，华为AR路由器，树莓派</p>
+<p>涉及技术包括：远程开机，内网穿透（获取公网ip，光猫桥接，端口映射，动态域名服务——DDNS），vpn（虚拟专线-网络安全），vsftp、samba局域网共享文件夹，博客（云笔记、知识整沉淀）</p>
 <p>涉及操作系统和网络环境：windows7，linux操作系统(Raspberry Pi OS with desktop and recommended software)，公网IP</p>
-<p>涉及主要软件包括：远程桌面软件mstsc、xrdp，vpn软件pptpd、l2tp vpn，ipsec vpn，ftp软件vsftpd，局域网软件samba，认证软件ppp，博客软件hexo，笔记软件obsidian</p>
+<p>涉及主要软件包括：远程桌面软件mstsc、xrdp，vpn软件pptpd、l2tp vpn，ipsec vpn，ftp软件vsftpd，局域网共享文件夹软件samba，认证软件ppp，加密通信软件openssl，博客软件hexo，笔记软件obsidian</p>
 <hr>
 <h2 id="远程开机"><a href="#远程开机" class="headerlink" title="远程开机"></a>远程开机</h2><p>远程开机又叫网络唤醒WOL (Wake On Lan)</p>
-<p>实现远程开机有：通电唤醒和主板网卡唤醒两种方法。</p>
-<p>方法1：通电唤醒，买一个<font color="#BF360C"><strong>智能插座</strong></font>即可。在有wifi的环境中用对应的手机app和互联网即可实现远程控制电脑的通电与否，再开启主板的通电唤醒，即可实现远程开机。方案成熟非常方便。</p>
-<p>现在成熟的智能方案，可以做到定时和手机远程遥控开关机，启动程序，非常方便。对于没有智能功能的电器部分也可以通过智能插座操纵，这个就是创新，叠加了远程控制一个元素而已。但是极大的方便了人们的生活，让我们的各种电器设备运行更加符合我们的节奏。<br>由此，<font color="#BF360C"><strong>非常看好智能家居的发展</strong></font>。</p>
-<p>例如：<br>技嘉主板在bios设置中：电源管理，电源恢复时系统状态选择设置为永远启动<br>（Power Management Setup设置Restore AC Power Loss）<br>Power On——当电流恢复时，计算机处在开机状态，配合</p>
-<p><img src="/2020/12/23/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E6%99%BA%E8%83%BD%E6%8F%92%E5%BA%A7app2020122401.png" alt="[智能插座app2020122401.png]"></p>
-<p>即可</p>
-<p>方法2：主板网卡软件唤醒。（<font color="#BF360C"><strong>点评：比较麻烦，但其基本技术，后面的服务器配置用的上</strong></font>）。</p>
-<p>如果您的路由器获取的IP是内网（局域网）IP（内网IP段：192.168.0.0-192.168.255.255、172.16.0.0-172.31.255.255、10.0.0.0-10.255.255.255），就不能外网远程唤醒。</p>
-<p>需要先实现<br>我们在局域网（路由器后面的电脑或手机）因为缺乏准确的地址，均不能直接被公网（互联网）连接，所以必须先固定一个准确地址，这个过程叫内网穿透。</p>
+<p>实现远程开机有：智能插座通电唤醒和主板网卡唤醒两种方法。</p>
+<hr>
+<h4 id="智能插座实现通电唤醒"><a href="#智能插座实现通电唤醒" class="headerlink" title="智能插座实现通电唤醒"></a>智能插座实现通电唤醒</h4><p>方法1：通电唤醒，买一个<font color="#BF360C"><strong>智能插座</strong></font>即可。在有wifi的环境中用对应的手机app和互联网即可实现远程控制电脑是否通电，再开启主板的通电唤醒功能，即可实现远程开机。智能插座方案已经商用，成熟非常方便。</p>
+<p>现在成熟的智能插座，可以做到wifi条件下计划定时和手机app手动远程遥控通断电两种方式。</p>
+<p>对于没有智能功能的电器部分也可以通过智能插座操纵（相关电器必须满足通电即启动），这个就是创新，叠加了远程控制一个元素而已。但是极大的方便了人们的生活，突破了时间和空间的限制，让各种电器设备运行更加符合人的节奏。<br>由此，<font color="#BF360C"><strong>非常看好智能家居的发展</strong></font>。</p>
+<p>例如：<br>技嘉主板在bios设置中：电源管理，电源恢复时系统状态选择设置为永远启动<br>（Power Management Setup设置Restore AC Power Loss）<br>Power On——当电流恢复时，计算机处在开机状态。</p>
+<p>配合智能插座设置</p>
+<p><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E6%99%BA%E8%83%BD%E6%8F%92%E5%BA%A7app2020122401.png" alt="[智能插座app2020122401.png]"></p>
+<p>即可。</p>
+<p><font color="#BF360C"><strong>智能插座还可以安排计划任务，设定自动开机、和关闭电源的时间</strong></font></p>
+<p>注：如果用计划任务安排了定时自动开机，最好对应设置计划关闭电源的任务，避免忘记关电源后再开机失效，也减轻每次关机后需手动操作关闭电源的负担。</p>
+<p>但电脑在运行中直接关电源容易导致每分钟7200转的磁头直接把硬盘的盘片划伤，成为物理坏道，并损坏坏道上的文件，大家要注意在自动关电源前用系统关闭计算机。</p>
+<p>其实设置计划任务也利于大家养成规律的作息时间，对身体好。</p>
+<hr>
+<h4 id="主板网卡软件唤醒"><a href="#主板网卡软件唤醒" class="headerlink" title="主板网卡软件唤醒"></a>主板网卡软件唤醒</h4><p>方法2：主板网卡软件唤醒。（<font color="#BF360C"><strong>点评：比较麻烦，但其技术基础，在后面的云服务器配置用的上</strong></font>）。</p>
+<p>如果您的路由器获取的ip是内网（局域网）ip（内网ip段：192.168.0.0-192.168.255.255、172.16.0.0-172.31.255.255、10.0.0.0-10.255.255.255），就不能直接实现外网远程唤醒。</p>
+<p>需要先实现内网穿透。</p>
+<p>我们在局域网（通常在路由器后连接的电脑或手机）因为缺乏准确的地址，均不能直接被公网（互联网）连接，所以必须给指定的设备先固定一个属于公网的准确地址，这个过程叫内网穿透。</p>
 <p>1、内网穿透：<br><font color="#BF360C"><strong>请给你的运营商电话，将运营商到家IP地址换成公网（互联网）动态ip</strong></font>。<br>ps：除非公司可以获取公网固定IP地址，弈何实测过，成都地区，移动、电信、联通三家运营商个人都无法获取公网固定IP。</p>
-<p>——推测原因a.IPv4的地址比较紧张，资源有限，期待IPv6赶快普及。而地址资源数量级增加的IPv6不能更快普及与现有很多固有利益有关。</p>
-<p>推测原因b.同[[面对互联网的历史进程我们该怎么办]]一文所述，减少缺乏分辨能力的老铁们和别有用心的阴谋家接触、发布过多不必要的干扰信息，其实是一种父爱。但也说明监管偏保守。其实即使不提供固定公网ip也挡不住真正有心的干坏事的人，而大数据时代，面对真正必要的监管，大家都是透明的，现有技术手段监管技术，是绰绰有余的。<br>结论是弈何认为其实可以进一步放开，降低更多人接触、学习信息化，实现创新的成本。</p>
-<p>搞定公网IP后，如果您用的是光猫路由一体机，连接光猫的路由器获取的也是内网IP，就需要登录，将光猫连接方式改为<font color="#BF360C"><strong>桥接</strong></font>（过程略，需要登陆光猫更改设置），<br>![[光猫桥接2020120402.png]](光猫桥接2020120402 1.png)</p>
-<p>（备注：设置桥接以后，怎么进入光猫的后台？特别是路由器ip与光猫重叠的话，如果用wifi可能需要关闭路由器。<br>1、连接光猫的wifi或者网线连接光猫lan口<br>2、手动更改本机的IP地址为光猫所在网段的地址。 如我移动光猫的192.168.1.1 , 我把自己的电脑改成192.168.1.55 （55是随意填的，只要不是光猫地址，不重复就行）<br>3、浏览去输入光猫的管理地址即可。）</p>
-<p>设置光猫桥接后，通过路由器直接拨号上网，这样路由器获取的才能是公网动态IP（IP地址是不断变化的），路由器的动态域名服务功能才能将域名解析到你的公网动态IP上。  </p>
-<p>动态域名服务（DDNS）动态域名解析服务，是将用户不断变动的动态IP地址映射到一个固定的域名解析服务上，用户每次连接网络的时候，客户端程序就会把该主机的动态IP地址发送给位于DDNS服务器，从而变相拥有了固定地址。<br>动态域名服务需要在提供DDNS服务的网站（花生壳（orag.com），公云（3322.org），Dynans.com和No-ip.com）注册、获取域名（有收费和免费域名）、域名报备和在自己路由器上添加自己的ddns账号参数实现将动态公网IP与自己的域名进行绑定。弈何选用的是花生壳服务。</p>
-<p>通俗讲就是你每次换号都马上告诉门卫李大爷，那么即使你经常换号，大家也能通过李大爷电话你。</p>
-<p>有了固定地址，再开通端口映射，大家就可以通过外网找到你内网的特定服务器了。</p>
-<p>端口映射是NAT（Network Address Translation，网络地址转换）的一种，可以帮助我们把局域网IP中的指定电脑（服务器）连接到公网，从而使得公网客户端能够访问。一般路由器都能提供NAt或端口映射。</p>
+<p>——推测原因a.IPv4的地址比较紧张，资源有限，期待IPv6赶快普及。而地址资源数量级增加的IPv6不能更快普及并非技术问题，而是与现有很多固有利益有关。</p>
+<p>推测原因b.同<a href="%E9%9D%A2%E5%AF%B9%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E5%8E%86%E5%8F%B2%E8%BF%9B%E7%A8%8B%E6%88%91%E4%BB%AC%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E.md">[面对互联网的历史进程我们该怎么办]</a>一文所述，减少许多缺乏是否分辨能力的老铁们和别有用心的阴谋家接触、避免后者发布过多不必要的干扰信息，其实是一种父爱。但也说明监管偏保守。其实即使不提供固定公网ip也挡不住真正有心干坏事的人，而且互联网是有记忆的，遵循痕迹化管理原则，在大数据时代，面对真正必要的监管，大家都是透明的，现有监管技术，低成本抓坏人，是绰绰有余的。</p>
+<p>结论是弈何认为其实可以进一步放开，降低更多人接触、学习信息化，实现创新的成本。互联网技术其实并没有多么高不可攀。</p>
+<p>搞定公网IP后，如果您用的是光猫路由一体机，连接光猫的路由器获取的也是内网ip，就需要登录，将光猫连接方式改为<font color="#BF360C"><strong>桥接</strong></font>（需要登陆光猫更改设置），<br>![[光猫桥接2020120402.png]](光猫桥接2020120402 1.png)</p>
+<p>备注：设置桥接以后，如果需要设置光猫配置，怎么进入光猫的后台？特别多数路由器默认ip192.168.1.1与光猫重叠。<br>1）、连接光猫的wifi（用wifi需要关闭路由器，或更改路由器ip）或者网线连接光猫lan口。<br>2）、手动更改本机的ip地址为光猫所在网段的地址。 如光猫的ip为192.168.1.1 , 操作电脑ip192.168.1.55 。<br>3）、浏览器输入光猫的ip地址即可。</p>
+<p>设置光猫桥接后，通过路由器直接拨号上网，这样路由器获取的才能是公网动态ip（ip地址是不断变化的），路由器的动态域名服务功能才能将域名解析到你的公网动态ip上。  </p>
+<p><font color="#BF360C"><strong>动态域名服务（DDNS）</strong></font>动态域名服务，是将用户不断变动的动态ip地址映射到一个固定的域名解析服务上，用户每次连接网络的时候，客户端程序就会把该主机的动态ip地址发送给位于DDNS服务器，从而变相拥有了固定地址。</p>
+<p>动态域名服务需要在提供DDNS服务的网站（花生壳（orag.com），公云（3322.org），Dynans.com和No-ip.com）注册、获取域名（有收费和免费域名）、域名备案和在自己路由器上添加自己的ddns账号参数实现将动态公网ip与自己的域名进行绑定。弈何选用的是花生壳服务。</p>
+<p>通俗讲就是你每次换号都马上告诉门卫李大爷，那么即使你经常换，大家也能通过李大爷电话你。</p>
+<p>有了固定地址，再在路由器上建立端口映射，大家就可以通过外网找到你内网的特定服务器了。</p>
+<p><font color="#BF360C"><strong>端口映射</strong></font>是NAT（Network Address Translation，网络地址转换）的一种，可以帮助我们把局域网IP中的指定电脑（服务器）连接到公网，从而使得公网客户端能够访问。一般路由器都能提供NAT或端口映射。</p>
 <p>这样内网穿透就完成了。公网的设备就可以通过域名和端口号访问内网指定设备了。</p>
-<p>端口映射配置图例-TP-Link路由器）：<br><img src="/2020/12/23/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84tplink2020122403.png" alt="[端口映射tplink2020122403.png]"><br>端口映射配置图例-华为AR路由器：<br><img src="/2020/12/23/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122404.png" alt="[端口映射华为ar2020122404.png]"><br><img src="/2020/12/23/%E6%B7%B1%E5%BA%A6%E8%A7%A6%E7%BD%91-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122405.png" alt="[端口映射华为ar2020122405.png]"><br>远程开机的端口号范围是从0 到65535随便写，并不限定某一个端口</p>
+<p>其实我们访问的网页也是有端口的，只是80端口默认省略，例如<code>www.baidu.com:80</code>，才是完整的写法</p>
+<p>端口映射配置图例TP-Link路由器：<br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84tplink2020122403.png" alt="[端口映射tplink2020122403.png]"><br>端口映射配置图例-华为AR路由器：<br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122404.png" alt="[端口映射华为ar2020122404.png]"><br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122405.png" alt="[端口映射华为ar2020122405.png]"><br>远程开机的端口号范围是从0 到65535随便写，并不限定某一个端口。</p>
 <p>如果没有公网动态IP，还可以使用蒲公英路由器，旺石私有云盘或者用树莓派使用frp（需有公网IP的云服务器配合）等方案实现内网穿透。</p>
-<p>2、远程开机<br>原理：如今大多数电脑、笔记本、NAS、甚至是打印机等设备都支持远程开机功能，配置相关硬件参数后，便可使用<br>网页：<u><a target="_blank" rel="noopener" href="https://www.depicus.com/wake-on-lan/woli">https://www.depicus.com/wake-on-lan/woli</a></u><br>微信小程序：<u>网络唤醒</u><br>或者程序：<u>WakeOnLan</u><br>通过网络给电脑发送唤醒命令。从而实现远程开机。发送网络命令即可实现远程开机/重启/关机等操作。</p>
+<p>2、远程开机</p>
+<p>原理：如今大多数电脑、笔记本、NAS、甚至是打印机等设备都支持远程开机功能，配置相关硬件参数后，</p>
 <p>举例：主板网卡唤醒功能</p>
 <p>技嘉主板设置：<br>bios:network stack drive support开启<br>ipv4/6开启<br>fastboot开启（开启network必须开这个）<br>网络堆叠开启<br>网络开启<br>erp省电技术，必须要关闭<br>系统: 设备管zhi理器-网卡-属性-允许远程开启</p>
 <p>网卡设置：<br>【关机 网络唤醒】 ON<br>【环保节能】 OFF<br>【魔术封包唤醒】ON</p>
-<p><strong><font color="#BF360C">坑1</font>：主板网卡唤醒主机断电后无法唤醒，推测原因：主板会将断电後网络唤醒的功能存储在NVRAM模块中，存储完毕自动断电。 网络唤醒功能存储在主板的NVRAM中，220V断掉后，主板也同时断电，NVRAM被清空，所以无法进行唤醒。</strong></p>
+<p>便可使用<br>网页：<u><a target="_blank" rel="noopener" href="https://www.depicus.com/wake-on-lan/woli">https://www.depicus.com/wake-on-lan/woli</a></u>、<br>或微信小程序：<u>网络唤醒</u><br>或者程序：<u>WakeOnLan</u></p>
+<p>通过网络给电脑发送唤醒命令。从而实现远程开机。</p>
 <hr>
+<p><strong><font color="#BF360C">坑1</font>：主板网卡唤醒主机断电后无法唤醒，推测原因：主板会将断电後网络唤醒的功能存储在NVRAM模块中，存储完毕自动断电。 网络唤醒功能存储在主板的NVRAM中，220V断掉后，主板也同时断电，NVRAM被清空，所以无法进行唤醒。</strong></p>
 
       
     </div>
@@ -296,7 +814,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/tags/IT/">IT</a><a href="/tags/内网穿透/">内网穿透</a><a href="/tags/远程开机/">远程开机</a><a href="/tags/智能插座/">智能插座</a><a href="/tags/坑/">坑</a>
+        <a href="/tags/IT/">IT</a><a href="/tags/智能插座/">智能插座</a><a href="/tags/通电唤醒/">通电唤醒</a><a href="/tags/内网穿透/">内网穿透</a><a href="/tags/公网ip/">公网ip</a><a href="/tags/动态域名服务/">动态域名服务</a><a href="/tags/端口映射/">端口映射</a><a href="/tags/远程开机/">远程开机</a><a href="/tags/主板网卡唤醒/">主板网卡唤醒</a><a href="/tags/坑/">坑</a>
     </span>
     
 
@@ -409,285 +927,11 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/12/22/面对互联网的历史进程我们该怎么办/"><span>面对互联网的历史进程我们该怎么办</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/22/面对互联网的历史进程我们该怎么办/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-22T01:20:12.000Z">
-          2020-12-22
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>最近大家都在批评互联网大厂和资本，建议大家稍微关注就好。因为<font color="#BF360C"><strong>财富向少数人集中是历史客观规律，是每200，300年一次的轮回</strong></font>，不以人的意志为转移的。即使发动更激烈的反抗也很难解决这种客观规律。而且<font color="#BF360C"><strong>阴中有阳，阴阳共生</strong></font>。</p>
-<p>无论怎样，互联网是人类的历史进程，而且我高度怀疑是为了孕育下一个（可能没有人类的）伟大文明。按道德经的说法，天地不仁以万物为刍狗。</p>
-<p>回到个人，鉴于对大多数人能量有限，还是建议大家把更多注意力放在自己精进、放在改造自己上。<font color="#BF360C"><strong>人的精力是最有价值的财富，而且选择度非常大，一定要珍惜。</strong></font></p>
-<p>网上不是有个段子:</p>
-<blockquote>
-<p>月薪5万：团队还需要在整合一下<br>月薪3万：方案还需要在调整一下<br>月薪2万：那个客户到底考虑什么<br>月薪5千：华为国产手机吊打苹果<br>月薪3千：宾利添越肯定不如迈巴赫S600<br>月薪2千：俄罗斯对北约东扩的态度对美国全球战略的影响</p>
-</blockquote>
-<p>这段子有些冒犯，包括我个人，也非常关注国际政治博弈，但是仔细品品，话糙理端，明白自己当前的主要矛盾，尽可能把精力、算力都投入是更高效解决自己问题的方法。当然不谋全局者，不足以谋一域；不谋万世者，不足以谋一时。其中的最主要区别，就在于你能否把你的注意力和你自己当前的主要矛盾连通起来。越大的话题需要越大的能量和智慧来开启传送门。所以能量不足者尽量多多关注自己身边的问题，并不断提升自己的能量层级。</p>
-<p>还有一件事，说出来让大家开心点，按照某大神的看法，任何人的人生都是充满痛苦的，与财富、美貌、资源多寡完全无关。所以再优秀的他并不会比你更快乐，烦恼更少。从更高维度看众生是平等的。<br>实在不行，再教你一招，<font color="#BF360C"><strong>终极禁咒，时间之轮</strong></font>，施展这招错时绝杀，中者必死无疑，无人可逃。古今中外，没有例外。既然敌人或者你的怨憎会解决了，那么回过头该重点解决自己（求不得）的问题了。</p>
-<p>以解决问题为焦点，知行合一的学习或者说知行合一的行为是提高幸福感的最重要手段。其实解决问题只是一个低的层次，因为问题永远解决不完，但是聚焦到一定程度可能进入忘我的阶段。这时候什么烦恼都没有了，而且获得更多能量帮助你进阶，提升境界。思维决定人生。</p>
-<p>还有个关键点就是要注意连通，连通辐射能力和运行成本是辩证统一的两个繁荣的关键点。连通你可以连通的强者和重要节点，不仅限于现实，虚拟的亦可，不仅限于人，万物亦可。连通，需要携能，要有足够的能量才能开启传送门获得别人反馈。</p>
-<p>再次我的所处的世界和我们内心中的虚拟世界也是连通的。所以有一种方法，你内心的虚拟世界越多光明，越欣欣向荣，你就在现实中得到越多光明和机会的加持。</p>
-<p>如果还是觉得困难更多，还有两个重要规律可以赋能：<font color="#BF360C"><strong>阴阳互根</strong></font>——困难有多大，仔细思考机遇往往会如影随形。更何况<font color="#BF360C"><strong>任何事都有三种以上的解决方案</strong></font>。能真正理解这两点，你的人生基本就没有困难了。</p>
-<p>弈何最近自学了点IT知识，经过2个月的奋斗，搭建了一个vpn服务器（建立安全的网络连接和广义局域网连接）、ftp服务器（文件传输数据库）、samba服务器（局域网文件夹），用wordpress和hexo搭建了2个个人博客。这些是为了更方便和大家连接的，不过因为法律法规，作为个人，目前大部分资源无法和大家分享，但总会有有用的方法和有用的一天的。以后有好文章会推荐到群里来。</p>
-<p>弈何空下来也慢慢的把最近的学习体会和踩过的坑记录下来，有需要的朋友欢迎自己试试。</p>
-<p>学习这些技术，我有三个体会，一是<strong>互联网技术层也没有那么的高不可攀</strong>，有心的话，也可以很快掌握，特别是<strong>以问题为导向的学习方法非常高效</strong>，大家还要更加<strong>善于利用搜索引擎</strong>。互联网导致信息和知识格差本质是我们的个人选择。某大神说个人意志，自由选择是每个人的天生禀赋。<br>简单说就是你究竟是用网络来玩还是来学习、发展。再说深一个层次，同样是玩，层次也是有明显区别的。有的人用来天天舔屏看美女，而有的人，则用来截取某某外太空的电波信号。<font color="#BF360C"><strong>要玩，就要做大玩家</strong></font>。</p>
-<p>二是<strong>元认知，计划、监控的意识和技术是重要破局点</strong>，计划和监控让你随时知道你在那里，下一步该干嘛，哪些可以做，这样思路更加清晰，行动更加高效。看看我党的各种五年计划和精确的外太空探索计划，脚踏实地，有条不紊。重视计划和监控，治国如此，团队管理同样如此，做服务器需要，个人成长也同样需要。</p>
-<p>三用<strong>代码看世界</strong>很有意思，信息技术是有规律的，符合规律就可以解决问题，某种意义其实人也是代码驱动的执行程序，比如我们的dna，那么自然也遵守信息技术的一般规律，人的生理由代码驱动，人的思维和人的社会同样也是代码驱动的，符合规律就能够解决问题。那么解决任何问题就是翻译代码，找出规律，再编译代码（固定流程的程序），执行（监控+修正）。这样我们生命中的大部分问题，都可以被代码的思维方式计算和解决。</p>
-<p><font color="#6495ED"><a target="_blank" rel="noopener" href="http://yihe-yishijie.gitee.io/">弈世界</a></font>这是我国内初步搭建的个人博客，因为缺乏前端知识，还很简陋，但有很多更重要的事，就先这样用着。</p>
-<p><font color="#6495ED"><a target="_blank" rel="noopener" href="https://yihe-yishijie.github.io/">弈世界外网</a></font>这是我在github服务器上的博客，可以用pc端打开的。这个站点手机端只能用wify打开，估计是联通没有dns解析（没有加入网址）。我个人猜测，这也是有意的，增加门槛（从手机端到pc端），让更有效率的人获得更多的资源，减少缺乏分辨能力的老铁们接触过多不必要的干扰信息其实是一种父爱。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/IT/">IT</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/认知世界/">认知世界</a><a href="/tags/时事评论/">时事评论</a><a href="/tags/连通/">连通</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/12/22/连通资本市场/"><span>连通资本市场</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/22/连通资本市场/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-22T01:19:45.000Z">
-          2020-12-22
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h3 id="搭建认知体系"><a href="#搭建认知体系" class="headerlink" title="搭建认知体系"></a>搭建认知体系</h3><p>用hexo搭建个人的博客，并且形成Obsidian笔记软件和hexo博客软件的无缝融合，再用samba服务器（局域网文件夹）和FTP作为配套私有云保存数据，配合gitee（国内代码云）和github（国外代码云）平台发布博客，再辅助百度网盘、微信公众号、知乎和powerBI数据分析。结合上个阶段的框架学习，至此，一个既可个人笔记，也非常便捷与大家连通的个人知识框架和笔记体系基本搭建完毕。剩下的是优化和细节延伸。以上为装B示范，其实是懒，为了省一点点事，弄的很复杂，而且很傻。按最简化原则，以上步骤用百度云盘、微信公众号加word、excel就可完成。</p>
-<hr>
-<h3 id="连通资本市场"><a href="#连通资本市场" class="headerlink" title="连通资本市场"></a>连通资本市场</h3><p>下个阶段，弈何要在求不得的问题取得持续进阶。先制定一个5年计划，建立一套针对资本市场的以实践为金指标的强监控、反馈体系（建立元认知——可以理解是导航系统，防止走错路，提升风险控制能力）。</p>
-<p>要连通资本市场，在这个领域完成认知的进一步提升和变现，需要清晰的思路，需要逐步用一些高效节点（人、财、物、信、思），如5W2H、矛盾阴阳论、非暴力沟通、人类简史、有限和无限的游戏、刻意练习的框架等来剖析资本市场，从而形成更好的理解和解决方案。</p>
-<p>经济基础决定上层建筑。当今世界，金融是资本主导的市场经济最重要的具象符号。垄断帝国资本主义发展至今，以虚拟经济为更大权重的金融与实业的对立和统一是人类社会主要矛盾的主要方面。所以金融是从经济层面认知世界最主要的途径。而资本市场又是金融的执牛耳者。说人话就是：<font color="#BF360C"><strong>资本市场是认知和连通世界的牛鼻子</strong></font>。</p>
-<p>那么资本市场是什么呢？资本市场的最主要功能是转移财富，聚集能量和重新分配能量。在转移财富的过程中，部分能量的利用效率得到提升。同时，不同的政府和不同的阶段，对资本市场有不同的定位，全球的资本市场在资金流、信息流、人流、物流通过某种途径相互连通，相互影响。资本市场又与政治、军事、文化交融、影响所有人。</p>
-<p>受益于信息化，作为虚拟经济为主要代表的资本市场也是门槛最低和门槛最高的行业。在移动通信时代，任何人可以随时随地参与。但能够在资本市场获得持续赋能，稳定获益且没有反噬的人却九牛一毛，可以说资本市场如战场，一将功成万骨枯，资本市场是大国核平衡下，用钱打仗、竞争的地方。可以根据自己的能量，参与不同级别的战役。</p>
-<p>资本市场也是暗黑森林，参与其中的都既是猎人也是猎物，无一例外。</p>
-<p>资本市场还是浩瀚宇宙、人类世界的一片小树林，按照自相似原理，都有着相似的运行规律。</p>
-<p><font color="#BF360C"><strong>利益驱动是理解资本市场关键</strong></font>。</p>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>参与资本市场是非常好的认知世界、检验认知的入世方式。要用好各种框架和节点增加对市场的分析，早日摸清规律，获得进阶。掌握、用好利益驱动原则是认知的关键，利益不止于money。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/投资/">投资</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/A股/">A股</a><a href="/tags/元认知/">元认知</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/12/22/欢迎来到弈世界/"><span>欢迎来到弈世界</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/22/欢迎来到弈世界/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-22T01:15:57.000Z">
-          2020-12-22
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>欢迎来到<font size="6" color="#BF360C">弈世界</font>，我是弈何</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">本博客的主题是学习笔记，纪录成长和心得。</span><br></pre></td></tr></table></figure>
-<p>更好的<font size="4" color="#BF360C"><strong>认识世界、才能改造世界、改造自己</strong></font><br>更好的<font size="4" color="#BF360C"><strong>连通世界、才能获得滋养</strong></font></p>
-<hr>
-<p>祝大家成为<font size="4" color="#BF360C"><u>自己人生的大玩家</u></font>，披坚执锐，一路攻城略地，所向披靡！</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/认知世界/">认知世界</a><a href="/tags/连接/">连接</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/12/20/hello-world/"><span>Hello World</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/20/hello-world/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-20T01:15:57.000Z">
-          2020-12-20
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/IT/">IT</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/IT/">IT</a><a href="/tags/hexo/">hexo</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
+  
+  <a href="/page/2/" class="pagination-next">下一页</a>
   
 </nav>
     </main>
@@ -698,7 +942,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 弈何
+    &copy; 2021 弈何
     
   </p>
 </footer>
