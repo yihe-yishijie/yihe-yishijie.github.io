@@ -343,6 +343,67 @@
 
   
     
+    <h3 class="article-title"><a href="/2021/01/02/搭建私有云笔记-技术篇6linux硬盘挂载/"><span>搭建私有云笔记-技术篇6linux硬盘挂载</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/01/02/搭建私有云笔记-技术篇6linux硬盘挂载/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-02T02:49:32.000Z">
+          2021-01-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>查看硬盘</p>
+<p><code>sudo fdisk -l</code></p>
+<p>查看挂载</p>
+<p><code>sudo df -h</code></p>
+<p>格式化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@yishijie:~# parted GNU Parted 3.2 Using &#x2F;dev&#x2F;sda Welcome to GNU Parted! Type &#39;help&#39; to view a list of commands. (parted) mklabel gpt  </span><br><span class="line">Warning: The existing disk label on &#x2F;dev&#x2F;sda will be destroyed and all data on this disk will be lost. Do you want to continue? Yes&#x2F;No? y  </span><br><span class="line">(parted) mkpart  </span><br><span class="line">Partition name? \[\]? yishijie  </span><br><span class="line">File system type? \[ext2\]? ext4</span><br><span class="line"></span><br><span class="line">(parted) mkpart primary 0.00T 100%  </span><br><span class="line">Start? 0  </span><br><span class="line">End? 100%  </span><br><span class="line">Warning: The resulting partition is not properly aligned for best performance. Ignore&#x2F;Cancel? I (parted) print</span><br></pre></td></tr></table></figure>
+<p>我们使用 parted 工具对对硬盘进行分区操作后，我们一定要进行格式化分区才能被使用！<br>使用 mkfs 工具可以方便地对分区进行格式化。</p>
+<p><code>sudo mkfs -t ext4 /dev/sda</code></p>
+<p>查询UUID命令</p>
+<p><code>sudo blkid /dev/sda</code><br>其中/dev/sda为用<code>sudo fdisk -l</code>命令查询的硬盘（u盘）设备名称</p>
+<p>临时挂载，每次关机后挂载会消失，例：<br><code>sudo mount -t ext4 /dev/sda /mnt/yishijie</code></p>
+<p>开机挂载，注意uuid会变</p>
+<p><code>sudo nano /etc/fstab</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;56c8f78c-0e59-4b78-b5f8-d71f36fc558c &#x2F;mnt&#x2F;yishijie ext4 defaults 0 0</span><br><span class="line">&#x2F;yi &#x2F;home&#x2F;yihe&#x2F;yi none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;hexo &#x2F;home&#x2F;yihe&#x2F;hexo none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yihe&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dxz&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yjj&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dy&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;kgh&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;mft&#x2F;共享 none rw,bind 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意：<br>1.硬盘uuid的变化，<br>2.挂载文件夹类型用none，在hexo安装后挂载</p>
+<p>参考文献：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/daydayup654/article/details/78788310">Linux中挂载详解以及mount命令用法_daydayup654的博客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2021/01/02/搭建私有云笔记-技术篇5搭建pptpd/"><span>搭建私有云笔记-技术篇5搭建pptpd</span></a></h3>
     
   
@@ -404,67 +465,6 @@
 
   
     
-    <h3 class="article-title"><a href="/2021/01/02/搭建私有云笔记-技术篇6linux硬盘挂载/"><span>搭建私有云笔记-技术篇6linux硬盘挂载</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2021/01/02/搭建私有云笔记-技术篇6linux硬盘挂载/" rel="bookmark">
-        <time class="entry-date published" datetime="2021-01-02T02:42:32.000Z">
-          2021-01-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>查看硬盘</p>
-<p><code>sudo fdisk -l</code></p>
-<p>查看挂载</p>
-<p><code>sudo df -h</code></p>
-<p>格式化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@yishijie:~# parted GNU Parted 3.2 Using &#x2F;dev&#x2F;sda Welcome to GNU Parted! Type &#39;help&#39; to view a list of commands. (parted) mklabel gpt  </span><br><span class="line">Warning: The existing disk label on &#x2F;dev&#x2F;sda will be destroyed and all data on this disk will be lost. Do you want to continue? Yes&#x2F;No? y  </span><br><span class="line">(parted) mkpart  </span><br><span class="line">Partition name? \[\]? yishijie  </span><br><span class="line">File system type? \[ext2\]? ext4</span><br><span class="line"></span><br><span class="line">(parted) mkpart primary 0.00T 100%  </span><br><span class="line">Start? 0  </span><br><span class="line">End? 100%  </span><br><span class="line">Warning: The resulting partition is not properly aligned for best performance. Ignore&#x2F;Cancel? I (parted) print</span><br></pre></td></tr></table></figure>
-<p>我们使用 parted 工具对对硬盘进行分区操作后，我们一定要进行格式化分区才能被使用！<br>使用 mkfs 工具可以方便地对分区进行格式化。</p>
-<p><code>sudo mkfs -t ext4 /dev/sda</code></p>
-<p>查询UUID命令</p>
-<p><code>sudo blkid /dev/sda</code><br>其中/dev/sda为用<code>sudo fdisk -l</code>命令查询的硬盘（u盘）设备名称</p>
-<p>临时挂载，每次关机后挂载会消失，例：<br><code>sudo mount -t ext4 /dev/sda /mnt/yishijie</code></p>
-<p>开机挂载，注意uuid会变</p>
-<p><code>sudo nano /etc/fstab</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;56c8f78c-0e59-4b78-b5f8-d71f36fc558c &#x2F;mnt&#x2F;yishijie ext4 defaults 0 0</span><br><span class="line">&#x2F;yi &#x2F;home&#x2F;yihe&#x2F;yi none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;hexo &#x2F;home&#x2F;yihe&#x2F;hexo none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yihe&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dxz&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yjj&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dy&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;kgh&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;mft&#x2F;共享 none rw,bind 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>注意：<br>1.硬盘uuid的变化，<br>2.挂载文件夹类型用none，在hexo安装后挂载</p>
-<p>参考文献：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/daydayup654/article/details/78788310">Linux中挂载详解以及mount命令用法_daydayup654的博客</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
     <h3 class="article-title"><a href="/2020/12/25/搭建私有云笔记-技术篇4树莓派安装/"><span>搭建私有云笔记-技术篇4树莓派安装</span></a></h3>
     
   
@@ -491,7 +491,7 @@
 <p>2、用SDFormatter格式化闪存</p>
 <p>3、用Win32DiskImager或Raspberry Pi Imager导入镜像（镜像可在官网下载）</p>
 <p>4、在闪存根目录处创建无后缀名的ssh文本文档，作为树莓派ssh入口</p>
-<p>3、用putty进行远程控制：<a href="mailto:&#112;&#105;&#64;&#49;&#x39;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#x2e;&#x78;">&#112;&#105;&#64;&#49;&#x39;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#x2e;&#x78;</a>（sn:pi/raspberry,ip是树莓派的内网IP可通过路由器或ipscan等方案查询）</p>
+<p>3、用putty进行远程控制：<a href="mailto:&#112;&#105;&#64;&#x31;&#x39;&#x32;&#46;&#x31;&#x36;&#56;&#x2e;&#x31;&#x2e;&#120;">&#112;&#105;&#64;&#x31;&#x39;&#x32;&#46;&#x31;&#x36;&#56;&#x2e;&#x31;&#x2e;&#120;</a>（sn:pi/raspberry,ip是树莓派的内网IP可通过路由器或ipscan等方案查询）</p>
 <p>4、修改源<br>树莓派的源在外网，很慢，所以一般更换国内源更好，一般用大学或阿里等的源。</p>
 <p>先查看自己系统的版本<br>树莓派版本查看命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getconf LONG_BIT   # 查看系统位数</span><br><span class="line">lsb_release -a   # 查看操作系统版本</span><br></pre></td></tr></table></figure>
@@ -654,28 +654,30 @@
   <div class="article-content">
     <div class="entry">
       
-        <p><strong>关键词：<font color="#BF360C">IT，远程控制，mstsc，xrdp</font></strong></p>
+        <p><strong>关键词：<font color="#BF360C">IT，远程控制，mstsc，xrdp，远程关机</font></strong></p>
 <hr>
-<h2 id="远程控制"><a href="#远程控制" class="headerlink" title="远程控制"></a>远程控制</h2><h4 id="windows间的远程控制"><a href="#windows间的远程控制" class="headerlink" title="windows间的远程控制"></a>windows间的远程控制</h4><p>方法1：可以使用QQ的请求控制对方电脑，并在需要控制的电脑端设置开机启动qq，再QQ的请求控制电脑的设置中配置自动接受连接请求。</p>
-<p>方法2：使用微软的远程桌面协助，非常方便，且速度快，无延迟。开通后，输入IP+端口号，或者输入域名+端口号，即可连接（设备端口号一般是3389，路由器对外的端口号可以换一个任意端口号增加安全性。路由器外网可以更换远程关机可以使用运行shutdown -t -s 0命令）<br>包括windows自带的远程桌面，速度快，和第三方远程桌面软件：如qq远程控制等</p>
-<p>windows远程桌面设置：  </p>
+<h2 id="远程控制"><a href="#远程控制" class="headerlink" title="远程控制"></a>远程控制</h2><h4 id="windows间的远程控制"><a href="#windows间的远程控制" class="headerlink" title="windows间的远程控制"></a>windows间的远程控制</h4><p>包括windows自带的远程桌面mstsc，速度快，和第三方远程桌面软件：如qq远程控制等</p>
+<h5 id="方案1：QQ远程"><a href="#方案1：QQ远程" class="headerlink" title="方案1：QQ远程"></a>方案1：QQ远程</h5><p><font color="#BF360C"><strong>优点：操作简单，无需任何网络参数配置。</strong></font><br>缺点：有延迟感。</p>
+<p>实现方法：使用QQ的请求控制对方电脑，并在需要控制的电脑端设置QQ开机启动，并在QQ的请求控制电脑的设置中配置自动接受连接请求。<br>这样在控制端输入密码即可远程控制目标电脑的桌面。</p>
+<h5 id="方案2：mstsc"><a href="#方案2：mstsc" class="headerlink" title="方案2：mstsc"></a>方案2：mstsc</h5><p><font color="#BF360C"><strong>优点：非常方便，且速度快，无延迟。</strong></font><br>缺点：需要做端口映射，有一定风险。</p>
+<p>实现方法：<br>1、目标段设置<br>需先开通目标机远程设置，<br>目标机windows远程桌面设置：  </p>
 <p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122501.png]"></p>
 <p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122502.png]"></p>
+<p>然后做端口映射（目标设备远程桌面端口号一般是3389，在做映射时路由器对外的端口号可以换一个任意端口号增加安全性。）</p>
+<p>2、在控制端，输入IP+端口号，或者输入域名+端口号，即可连接。</p>
 <p>windows连接设置：  </p>
 <p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122503.png" alt="[远程桌面2020122503.png]"></p>
-<p>或者  </p>
+<p>或者 </p>
 <p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122504.png]"></p>
-<p><font color="#BF360C"><strong>运行：mstsc</strong></font><br>填入ip（域名）和相应端口，如3389  </p>
+<p><font color="#BF360C"><strong>运行（Ctrl+r）：mstsc</strong></font><br>填入ip（域名）:相应端口，如3389</p>
 <p><img src="/2020/12/25/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%872%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%92%8C%E5%85%B3%E6%9C%BA/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A22020122501.png" alt="[远程桌面2020122505.png]"></p>
-<p>填入用户名和密码</p>
-<p>方法3：其他远程软件也提供远程控制功能。</p>
+<p>填入用户名和密码登陆。</p>
+<h5 id="方案3：其他远程管理软件"><a href="#方案3：其他远程管理软件" class="headerlink" title="方案3：其他远程管理软件"></a>方案3：其他远程管理软件</h5><hr>
+<h4 id="windows对树莓派的远程控制"><a href="#windows对树莓派的远程控制" class="headerlink" title="windows对树莓派的远程控制"></a>windows对树莓派的远程控制</h4><p>可以使用<font color="#BF360C"><strong>ssh</strong></font>用命令行远程控制<br>ssh登陆格式<br><code>ssh user@remote -p port</code><br>用户名@网址或ip:端口号<br>或用户名@网址或ip -p 端口号</p>
+<p>也可以使用<font color="#BF360C"><strong>xrdp</strong></font>和其他远程桌面VNC 远程连接软件等</p>
 <hr>
-<h4 id="windows对树莓派的远程控制"><a href="#windows对树莓派的远程控制" class="headerlink" title="windows对树莓派的远程控制"></a>windows对树莓派的远程控制</h4><p>可以使用<font color="#BF360C"><strong>ssh</strong></font>用命令行远程控制<br>也可以使用<font color="#BF360C"><strong>xrdp</strong></font>和其他远程桌面VNC 远程连接软件等</p>
-<hr>
-<h2 id="远程关机"><a href="#远程关机" class="headerlink" title="远程关机"></a>远程关机</h2><p>方案1<br>在远程控制桌面<br>运行命令（Ctrl+r）<br><code>shutdown -t -s 0</code><br>-t关机<br>-s执行命令时间<br>0，秒，可以根据需要设计延时关机的时间<br>-r重启</p>
-<p>方案2，用一些远程控制软件开关机</p>
-<p>方案3，连入VPN后，用局域网开关机控制软件进行远程关机。</p>
-
+<h2 id="远程关机"><a href="#远程关机" class="headerlink" title="远程关机"></a>远程关机</h2><h5 id="方案1"><a href="#方案1" class="headerlink" title="方案1"></a>方案1</h5><p>在远程控制桌面<br>运行命令（Ctrl+r）<br><code>shutdown -t -s 0</code><br>-t关机<br>-s执行命令时间<br>0，秒，可以根据需要设计延时关机的时间<br>-r重启</p>
+<h5 id="方案2，远程控制软件开关机"><a href="#方案2，远程控制软件开关机" class="headerlink" title="方案2，远程控制软件开关机"></a>方案2，远程控制软件开关机</h5><h5 id="方案3，连入VPN后，用局域网开关机控制软件进行关机。"><a href="#方案3，连入VPN后，用局域网开关机控制软件进行关机。" class="headerlink" title="方案3，连入VPN后，用局域网开关机控制软件进行关机。"></a>方案3，连入VPN后，用局域网开关机控制软件进行关机。</h5>
       
     </div>
 
@@ -698,7 +700,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/tags/IT/">IT</a><a href="/tags/远程控制/">远程控制</a><a href="/tags/mstsc/">mstsc</a><a href="/tags/xrdp/">xrdp</a>
+        <a href="/tags/IT/">IT</a><a href="/tags/远程控制/">远程控制</a><a href="/tags/mstsc/">mstsc</a><a href="/tags/xrdp/">xrdp</a><a href="/tags/远程关机/">远程关机</a>
     </span>
     
 
@@ -735,15 +737,15 @@
     <div class="entry">
       
         <p><strong>关键词：<font color="#BF360C">IT，智能插座，通电唤醒，内网穿透，公网ip,动态域名服务，动态域名服务，端口映射，远程开机，主板网卡唤醒 ，坑</font></strong></p>
-<p><font color="#BF360C"><strong>阅读说明：本系列为个人重要技术资料备忘存档，记录1个多月弈何搭建安全的、私有云笔记、云存储服务器跨越各种坑的经过，适合有硬核需求的技术派小白直男阅读。谨慎进入</strong></font></p>
+<p><font color="#BF360C"><strong>阅读说明：本系列为个人重要技术资料备忘存档，记录1个多月弈何搭建安全的、私有云笔记、云存储服务器跨越各种坑的经过，适合有硬核需求的技术派小白直男阅读。请谨慎入坑！</strong></font></p>
 <p>入门可用级别</p>
 <p>本系列有大量引用，因为当时部署服务器时未做记录，加之工作量巨大，未附上引用备注。</p>
-<p>因为IT零基础，基础知识不牢，可能存在理论解释上的错误。欢迎交流，</p>
+<p>因为IT零基础，基础知识不牢，可能存在理论解释上的错误，欢迎交流。</p>
 <p>行文时间为2020年11月到12月，支持本期大部分软件、硬件、网络环境。</p>
-<p>PS：<font color="#BF360C"><strong>关于预算，弈何走了不少弯路，大概花了2400多，如果最便宜的方案3~400元能够搞定。买一台树莓派和一个u盘即可。要求高可以再加一个带电源的移动硬盘</strong></font>。最后一文总回顾会详细总结。</p>
+<p>PS：<font color="#BF360C"><strong>关于预算，弈何走了不少弯路，大概花了2400多元，如果最便宜的方案3~400元能够搞定。买一台树莓派和一个u盘即可。要求高可以再加一个带电源的移动硬盘</strong></font>。最后一文总回顾会详细总结。</p>
 <hr>
-<p>本系列涉及主要硬件：台式电脑，智能插座，华为AR路由器，树莓派</p>
-<p>涉及技术包括：远程开机，内网穿透（获取公网ip，光猫桥接，端口映射，动态域名服务——DDNS），vpn（虚拟专线-网络安全），vsftp、samba局域网共享文件夹，博客（云笔记、知识整沉淀）</p>
+<p>本系列涉及主要硬件：台式电脑，智能插座，华为AR路由器，树莓派4b</p>
+<p>涉及技术包括：远程开机，内网穿透（获取公网ip，光猫桥接，端口映射，动态域名服务——DDNS），vpn（虚拟专线-网络安全），vsftp、samba局域网共享文件夹，博客（云笔记、知识沉淀）</p>
 <p>涉及操作系统和网络环境：windows7，linux操作系统(Raspberry Pi OS with desktop and recommended software)，公网IP</p>
 <p>涉及主要软件包括：远程桌面软件mstsc、xrdp，vpn软件pptpd、l2tp vpn，ipsec vpn，ftp软件vsftpd，局域网共享文件夹软件samba，认证软件ppp，加密通信软件openssl，博客软件hexo，笔记软件obsidian</p>
 <hr>
@@ -753,20 +755,20 @@
 <h4 id="智能插座实现通电唤醒"><a href="#智能插座实现通电唤醒" class="headerlink" title="智能插座实现通电唤醒"></a>智能插座实现通电唤醒</h4><p>方法1：通电唤醒，买一个<font color="#BF360C"><strong>智能插座</strong></font>即可。在有wifi的环境中用对应的手机app和互联网即可实现远程控制电脑是否通电，再开启主板的通电唤醒功能，即可实现远程开机。智能插座方案已经商用，成熟非常方便。</p>
 <p>现在成熟的智能插座，可以做到wifi条件下计划定时和手机app手动远程遥控通断电两种方式。</p>
 <p>对于没有智能功能的电器部分也可以通过智能插座操纵（相关电器必须满足通电即启动），这个就是创新，叠加了远程控制一个元素而已。但是极大的方便了人们的生活，突破了时间和空间的限制，让各种电器设备运行更加符合人的节奏。<br>由此，<font color="#BF360C"><strong>非常看好智能家居的发展</strong></font>。</p>
-<p>例如：<br>技嘉主板在bios设置中：电源管理，电源恢复时系统状态选择设置为永远启动<br>（Power Management Setup设置Restore AC Power Loss）<br>Power On——当电流恢复时，计算机处在开机状态。</p>
+<p>回到对应的主板配置，例如：<br>技嘉主板在bios设置中：电源管理，电源恢复时系统状态选择设置为永远启动<br>（Power Management Setup设置Restore AC Power Loss）<br>Power On——当电流恢复时，计算机处在开机状态。</p>
 <p>配合智能插座设置</p>
 <p><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E6%99%BA%E8%83%BD%E6%8F%92%E5%BA%A7app2020122401.png" alt="[智能插座app2020122401.png]"></p>
 <p>即可。</p>
 <p><font color="#BF360C"><strong>智能插座还可以安排计划任务，设定自动开机、和关闭电源的时间</strong></font></p>
 <p>注：如果用计划任务安排了定时自动开机，最好对应设置计划关闭电源的任务，避免忘记关电源后再开机失效，也减轻每次关机后需手动操作关闭电源的负担。</p>
-<p>但电脑在运行中直接关电源容易导致每分钟7200转的磁头直接把硬盘的盘片划伤，成为物理坏道，并损坏坏道上的文件，大家要注意在自动关电源前用系统关闭计算机。</p>
+<p>但电脑在运行中直接关电源容易导致每分钟7200转的磁头直接把硬盘盘片划伤，成为物理坏道，并损坏坏道上的文件，大家要注意在自动关电源前用系统关闭计算机。</p>
 <p>其实设置计划任务也利于大家养成规律的作息时间，对身体好。</p>
 <hr>
 <h4 id="主板网卡软件唤醒"><a href="#主板网卡软件唤醒" class="headerlink" title="主板网卡软件唤醒"></a>主板网卡软件唤醒</h4><p>方法2：主板网卡软件唤醒。（<font color="#BF360C"><strong>点评：比较麻烦，但其技术基础，在后面的云服务器配置用的上</strong></font>）。</p>
-<p>如果您的路由器获取的ip是内网（局域网）ip（内网ip段：192.168.0.0-192.168.255.255、172.16.0.0-172.31.255.255、10.0.0.0-10.255.255.255），就不能直接实现外网远程唤醒。</p>
-<p>需要先实现内网穿透。</p>
+<p>如果您的路由器获取的ip是内网（局域网）ip（内网ip段：192.168.0.0-192.168.255.255、172.16.0.0-172.31.255.255、10.0.0.0-10.255.255.255），就不能直接外网远程唤醒。</p>
+<p>需要先内网穿透。</p>
 <p>我们在局域网（通常在路由器后连接的电脑或手机）因为缺乏准确的地址，均不能直接被公网（互联网）连接，所以必须给指定的设备先固定一个属于公网的准确地址，这个过程叫内网穿透。</p>
-<p>1、内网穿透：<br><font color="#BF360C"><strong>请给你的运营商电话，将运营商到家IP地址换成公网（互联网）动态ip</strong></font>。<br>ps：除非公司可以获取公网固定IP地址，弈何实测过，成都地区，移动、电信、联通三家运营商个人都无法获取公网固定IP。</p>
+<h5 id="1、内网穿透："><a href="#1、内网穿透：" class="headerlink" title="1、内网穿透："></a>1、内网穿透：</h5><p><font color="#BF360C"><strong>请给你的运营商电话，将运营商到家IP地址换成公网（互联网）动态ip</strong></font>。<br>ps：除非公司可以获取公网固定IP地址，弈何实测过，成都地区，移动、电信、联通三家运营商个人都无法获取公网固定IP。</p>
 <p>——推测原因a.IPv4的地址比较紧张，资源有限，期待IPv6赶快普及。而地址资源数量级增加的IPv6不能更快普及并非技术问题，而是与现有很多固有利益有关。</p>
 <p>推测原因b.同<a href="%E9%9D%A2%E5%AF%B9%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E5%8E%86%E5%8F%B2%E8%BF%9B%E7%A8%8B%E6%88%91%E4%BB%AC%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E.md">[面对互联网的历史进程我们该怎么办]</a>一文所述，减少许多缺乏是否分辨能力的老铁们和别有用心的阴谋家接触、避免后者发布过多不必要的干扰信息，其实是一种父爱。但也说明监管偏保守。其实即使不提供固定公网ip也挡不住真正有心干坏事的人，而且互联网是有记忆的，遵循痕迹化管理原则，在大数据时代，面对真正必要的监管，大家都是透明的，现有监管技术，低成本抓坏人，是绰绰有余的。</p>
 <p>结论是弈何认为其实可以进一步放开，降低更多人接触、学习信息化，实现创新的成本。互联网技术其实并没有多么高不可攀。</p>
@@ -782,8 +784,7 @@
 <p>其实我们访问的网页也是有端口的，只是80端口默认省略，例如<code>www.baidu.com:80</code>，才是完整的写法</p>
 <p>端口映射配置图例TP-Link路由器：<br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84tplink2020122403.png" alt="[端口映射tplink2020122403.png]"><br>端口映射配置图例-华为AR路由器：<br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122404.png" alt="[端口映射华为ar2020122404.png]"><br><img src="/2020/12/23/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%871%E8%BF%9C%E7%A8%8B%E5%BC%80%E6%9C%BA/%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%8D%8E%E4%B8%BAar2020122405.png" alt="[端口映射华为ar2020122405.png]"><br>远程开机的端口号范围是从0 到65535随便写，并不限定某一个端口。</p>
 <p>如果没有公网动态IP，还可以使用蒲公英路由器，旺石私有云盘或者用树莓派使用frp（需有公网IP的云服务器配合）等方案实现内网穿透。</p>
-<p>2、远程开机</p>
-<p>原理：如今大多数电脑、笔记本、NAS、甚至是打印机等设备都支持远程开机功能，配置相关硬件参数后，</p>
+<h5 id="2、远程开机"><a href="#2、远程开机" class="headerlink" title="2、远程开机"></a>2、远程开机</h5><p>原理：如今大多数电脑、笔记本、NAS、甚至是打印机等设备都支持远程开机功能，配置相关硬件参数后，</p>
 <p>举例：主板网卡唤醒功能</p>
 <p>技嘉主板设置：<br>bios:network stack drive support开启<br>ipv4/6开启<br>fastboot开启（开启network必须开这个）<br>网络堆叠开启<br>网络开启<br>erp省电技术，必须要关闭<br>系统: 设备管zhi理器-网卡-属性-允许远程开启</p>
 <p>网卡设置：<br>【关机 网络唤醒】 ON<br>【环保节能】 OFF<br>【魔术封包唤醒】ON</p>
