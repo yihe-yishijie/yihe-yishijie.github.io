@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建私有云笔记-技术篇4安装树莓派 | 弈世界 | 认知世界、连通万物</title>
+
+  
+  <meta name="author" content="弈何">
+  
+
+  
+  <meta name="description" content="关键词：IT，树莓派
+树莓派：Raspberry Pi(中文名为“树莓派”,简写为RPi，(或者RasPi / RPI)是为学习计算机编程教育而设计)，只有信用卡大小的微型电脑，低能耗，可以做家庭服务器。其操作系统基于Linux。弈何买的树莓派4b，8g内存，主要为以后批量处理一些数据留一点储备算力">
+  
+
+  
+  <meta name="keywords" content="笔记">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="搭建私有云笔记-技术篇4安装树莓派"/>
+
+  <meta property="og:site_name" content="弈世界"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="弈世界" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">弈世界</a>
+    </h1>
+    <p class="site-description">认知世界、连通万物</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>搭建私有云笔记-技术篇4安装树莓派</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/25/搭建私有云笔记-技术篇4安装树莓派/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-25T08:03:33.000Z">
+          2020-12-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>关键词：<font color="#BF360C">IT，树莓派</font></strong></p>
+<p>树莓派：Raspberry Pi(中文名为“树莓派”,简写为RPi，(或者RasPi / RPI)是为学习计算机编程教育而设计)，只有信用卡大小的微型电脑，低能耗，可以做家庭服务器。其操作系统基于Linux。弈何买的树莓派4b，8g内存，主要为以后批量处理一些数据留一点储备算力。如果做NAS（私有云），4G就够用了。</p>
+<hr>
+<h2 id="安装树莓派"><a href="#安装树莓派" class="headerlink" title="安装树莓派"></a>安装树莓派</h2><p>1、修改TF卡名称</p>
+<p>2、用SDFormatter格式化闪存</p>
+<p>3、用Win32DiskImager或Raspberry Pi Imager导入镜像</p>
+<p>（镜像可在官网下载：</p>
+<ul>
+<li>Raspberry Pi OS with desktop and recommended software</li>
+<li>Release date: December 2nd 2020</li>
+<li>Kernel version: 5.4）</li>
+</ul>
+<p>4、在闪存根目录处创建无后缀名的ssh文本文档，作为树莓派ssh入口</p>
+<p>3、用putty进行远程控制：<code>pi@192.168.1.x</code>（sn:raspberry,ip是树莓派的内网ip，可通过路由器或ipscan等方案查询获取）</p>
+<p>4、修改源<br>树莓派的源在外网，很慢，所以一般更换国内源更好，一般用大学或阿里等的源。</p>
+<p>不清楚自己版本的，可以先查看自己系统的版本<br>树莓派版本查看命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getconf LONG_BIT   # 查看系统位数</span><br><span class="line">lsb_release -a   # 查看操作系统版本</span><br></pre></td></tr></table></figure>
+<p>要更换版本对应的源，否则软件更新容易出错。</p>
+<p><code>sudo nano /etc/apt/sources.list</code></p>
+<p>弈何用的是Raspbian GNU/Linux 10 (buster)，更换清华源：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspbian&#x2F;raspbian&#x2F; buster main non-free contrib rpi</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspbian&#x2F;raspbian&#x2F; buster main non-free contrib rpi</span><br></pre></td></tr></table></figure>
+<p><code>sudo nano /etc/apt/sources.list.d/raspi.list</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspberrypi&#x2F; buster main ui</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspberrypi&#x2F; buster main ui</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>5、获取root权限</p>
+<p><code>sudo passwd root</code><br>设置密码</p>
+<p>6、软件升级（用su命令切换到root权限，可以不输入sudo，而且apt-get upgrade需进入root权限才能更新，否则权限不足）</p>
+<p><code>sudo apt-get update &amp;&amp; apt-get upgrade</code></p>
+<p>7、远程连接windows，安装xrdp远程桌面软件</p>
+<p><code>sudo apt-get install xrdp</code></p>
+<p>8、安装火狐（个人偏好）</p>
+<p><code>sudo apt-get install firefox-esr -y</code></p>
+<p>9、删除chromium（个人偏好）</p>
+<p><code>sudo apt-get remove chromium-browser</code></p>
+<p><code>sudo apt-get remove chromium-codecs-ffmpeg-extra</code></p>
+<p>10、修改树莓派配置</p>
+<p><code>sudo raspi-config</code></p>
+<p>配置说明：</p>
+<p>修改主机名称<br>system options-hostname-改为自己喜欢的名称</p>
+<p>增加中文字库<br>localisation options-locale<br>添加：zh_ GB2312 GBk UTF-8</p>
+<p>扩展闪卡容量<br>advances options-expand</p>
+<p>11、进一步修改树莓派主机名和pi用户名<br>参见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34347375/article/details/103484334?utm_medium=distribute.pc_relevant_download.none-task-blog-baidujs-1.nonecase&depth_1-utm_source=distribute.pc_relevant_download.none-task-blog-baidujs-1.nonecase">修改树莓派pi4的计算机名以及用户名_码上看世界-CSDN博客</a><br>使用root权限<br><code>su</code><br><code>nano /etc/shadow</code><br><code>nano /etc/passwd</code><br><code>mv /home/pi /home/&lt;username&gt;</code><br><code>nano /etc/group</code><br>修改上述三个文件，文件中的所有pi替换成<username><br><code>reboot</code><br>再次远程登录时要使用更改后的用户名登录<br>这样修改用户名风险较大，一定确保所有的旧用户名都被替换，并且旧的用户目录名也相应被修改。</username></p>
+<p>11、设置超级账号 root ALL=(ALL:ALL) ALL</p>
+<p><code>sudo visudo</code></p>
+<p>可以sudoers添加下面四行中任意一条</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">qie ALL&#x3D;(ALL) ALL</span><br><span class="line">#允许用户youuser执行sudo命令(需要输入密码)。</span><br><span class="line">%qie ALL&#x3D;(ALL) ALL</span><br><span class="line">#允许用户组youuser里面的用户执行sudo命令(需要输入密码)</span><br><span class="line">qie ALL&#x3D;(ALL) NOPASSWD: ALL</span><br><span class="line">#允许用户youuser执行sudo命令,并且在执行的时候不输入密码</span><br><span class="line">%qie ALL&#x3D;(ALL) NOPASSWD: ALL</span><br><span class="line">#允许用户组youuser里面的用户执行sudo命令,并且在执行的时候不输入密码</span><br></pre></td></tr></table></figure>
+<p>12、添加谷歌拼音</p>
+<p><code>sudo apt-get install -y fcitx-googlepinyin</code></p>
+<p>13、重启</p>
+<p><code>sudo reboot</code></p>
+<hr>
+<p><strong><font color="#BF360C">坑1</font>：远程登陆时数字键盘经常会切换到不能使用（与Num lock指示灯亮否并不完全匹配）导致在密码设置的时候容易出现错误，导致密码错误。</strong></p>
+<p><strong><font color="#BF360C">坑2</font>：家目录内容不能随便删除，否则导致远程登陆无法登陆，需重建家目录：<br>mkdir /home/用户名<br>并将刚创建的目录修改属主和属组<br>chown 属主：属组 -R /home/用户名<br>然后将/etc/skel/.bash_的文件copy到目录下面。</strong></p>
+<p><strong><font color="#BF360C">坑3</font>：账号和权限。</strong></p>
+<hr>
+<p>参考文献：<br><a target="_blank" rel="noopener" href="https://raspberrypi.club/350.html">树莓派如何安装中文输入法 - 树莓派俱乐部</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/树莓派/">树莓派</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 弈何
+    
+  </p>
+</footer>
+    
+    
+<script>
+    var _hmt = _hmt || [];
+    ( function () {
+        var hm = document.createElement( "script" );
+        hm.src = "https://hm.baidu.com/hm.js?dangeryond";
+        var s = document.getElementsByTagName( "script" )[ 0 ];
+        s.parentNode.insertBefore( hm, s );
+    } )();
+</script>
+
+  </div>
+</div>
+</body>
+</html>

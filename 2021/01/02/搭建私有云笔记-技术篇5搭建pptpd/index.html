@@ -10,10 +10,10 @@
   
 
   
-  <meta name="description" content="4、Pptpd（树莓派）（详见后文）
-安装环境：硬件，树莓派4b操作系统，Raspbian GNU/Linux 10 (buster)
-树莓派可以安装pptpd来配置vpn安装pptpdsudo apt-get install pptpd
-配置pptpd ip段，注意要和局域网ip段不同了sudo ">
+  <meta name="description" content="关键词：IT，树莓派,pptpd
+PPTPD安装环境：硬件，树莓派4b操作系统，Raspbian GNU/Linux 10 (buster)
+树莓派也可以安装pptpd来配置vpn（弈何用华为AR L2tp-Ipsec VPN始终无法实现手机vpn连接）
+安装pptpd软件sudo apt-get ">
   
 
   
@@ -89,10 +89,11 @@
   <div class="article-content">
     <div class="entry">
       
-        <h4 id="4、Pptpd（树莓派）"><a href="#4、Pptpd（树莓派）" class="headerlink" title="4、Pptpd（树莓派）"></a>4、Pptpd（树莓派）</h4><p>（详见后文）</p>
-<p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
-<p>树莓派可以安装pptpd来配置vpn<br>安装pptpd<br><code>sudo apt-get install pptpd</code></p>
-<p>配置pptpd ip段，注意要和局域网ip段不同了<br><code>sudo nano /etc/pptpd.conf</code> </p>
+        <p><strong>关键词：<font color="#BF360C">IT，树莓派,pptpd</font></strong></p>
+<h2 id="PPTPD"><a href="#PPTPD" class="headerlink" title="PPTPD"></a>PPTPD</h2><p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
+<p>树莓派也可以安装pptpd来配置vpn（弈何用华为AR L2tp-Ipsec VPN始终无法实现手机vpn连接）</p>
+<p>安装pptpd软件<br><code>sudo apt-get install pptpd</code></p>
+<p>配置pptpd 虚拟网关和ip段，注意要和局域网ip段不同<br><code>sudo nano /etc/pptpd.conf</code> </p>
 <p>设置ip段，比如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">localip 192.168.2.1</span><br><span class="line">#虚拟网关</span><br><span class="line">remoteip 192.168.2.20-100,192.168.2.245</span><br><span class="line">#设置ip分配网段</span><br></pre></td></tr></table></figure>
 <p>配置dns<br><code>sudo nano /etc/ppp/pptpd-options</code></p>
@@ -102,9 +103,9 @@
 <p>开启ip转发（主机一般只发送和接受数据报，这是因为主机上/proc/sys/net/ipv4/ip_forward内核参数默认被设置为0。可以修改该值来使能主机的数据报转发功能）<br><code>sudo nano /etc/sysctl.conf</code><br><code>net.ipv4.ip_forward = 1</code></p>
 <p>并执行<br><code>sudo sysctl -p</code></p>
 <p>重启<br><code>sudo service pptpd restart</code></p>
-<p>对有防火墙对要配置防火墙参数。</p>
+<p><font color="#BF360C"><strong>对有防火墙的要配置防火墙参数。</strong></font></p>
 <hr>
-<h3 id="5、pptpd手机端Vpn客户端配置"><a href="#5、pptpd手机端Vpn客户端配置" class="headerlink" title="5、pptpd手机端Vpn客户端配置"></a>5、pptpd手机端Vpn客户端配置</h3><p><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%875%E6%90%AD%E5%BB%BApptpd/%E6%89%8B%E6%9C%BApptpdVPN2020122902.png" alt="[手机pptpdVPN2020122902.png]"></p>
+<h2 id="pptpd手机端Vpn客户端配置"><a href="#pptpd手机端Vpn客户端配置" class="headerlink" title="pptpd手机端Vpn客户端配置"></a>pptpd手机端Vpn客户端配置</h2><p><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%875%E6%90%AD%E5%BB%BApptpd/%E6%89%8B%E6%9C%BApptpdVPN2020122902.png" alt="[手机pptpdVPN2020122902.png]"></p>
 
       
     </div>
@@ -116,6 +117,13 @@
 
     
 
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/IT/">IT</a><a href="/tags/树莓派/">树莓派</a><a href="/tags/linux/">linux</a><a href="/tags/pptpd/">pptpd</a>
+    </span>
     
 
     </div>
