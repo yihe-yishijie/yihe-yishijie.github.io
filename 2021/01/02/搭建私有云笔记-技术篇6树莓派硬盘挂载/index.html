@@ -10,11 +10,11 @@
   
 
   
-  <meta name="description" content="树莓派硬盘挂载树莓派使用32G闪存卡启动，容量不足，打造私有云，须挂载硬盘。
+  <meta name="description" content="关键词：IT、树莓派、挂载
+树莓派硬盘挂载树莓派使用32G闪存卡启动，容量不足，打造私有云，须挂载硬盘。
 安装环境：硬件，树莓派4b操作系统，Raspbian GNU/Linux 10 (buster)
 查看硬盘sudo fdisk -l
-其中/dev/sda为用sudo fdisk -l命令查询的硬盘（u盘）设备名称
-查看挂">
+其中/dev/sda为用sudo fdisk -l命令查询的">
   
 
   
@@ -90,7 +90,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <h2 id="树莓派硬盘挂载"><a href="#树莓派硬盘挂载" class="headerlink" title="树莓派硬盘挂载"></a>树莓派硬盘挂载</h2><p>树莓派使用32G闪存卡启动，容量不足，打造私有云，须挂载硬盘。</p>
+        <p><strong>关键词：<font color="#BF360C">IT、树莓派、挂载</font></strong></p>
+<h2 id="树莓派硬盘挂载"><a href="#树莓派硬盘挂载" class="headerlink" title="树莓派硬盘挂载"></a>树莓派硬盘挂载</h2><p>树莓派使用32G闪存卡启动，容量不足，打造私有云，须挂载硬盘。</p>
 <p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
 <p>查看硬盘<br><code>sudo fdisk -l</code></p>
 <p>其中/dev/sda为用<code>sudo fdisk -l</code>命令查询的硬盘（u盘）设备名称</p>
@@ -101,11 +102,16 @@
 <p>参考文献：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/machangwei-8/p/10353690.html">parted命令详解 - 马昌伟 - 博客园</a></p>
 <p><font color="#BF360C"><strong>使用 parted 工具对对硬盘进行分区操作后，我们一定要进行格式化分区才能被使用！</strong>  </font></p>
 <p>使用 mkfs 工具可以方便地对分区进行格式化。<br><code>sudo mkfs -t ext4 /dev/sda</code></p>
-<p>查询UUID命令<br><code>sudo blkid /dev/sda</code></p>
-<p>临时挂载（每次关机后挂载会失效）例：<br><code>sudo mount -t ext4 /dev/sda /mnt/yishijie</code></p>
-<p>开机挂载，注意uuid会变<br><code>sudo nano /etc/fstab</code></p>
+<hr>
+<h4 id="挂载方案1"><a href="#挂载方案1" class="headerlink" title="挂载方案1"></a>挂载方案1</h4><p>查询UUID命令<br><code>sudo blkid /dev/sda</code></p>
+<p>开机永久挂载，注意uuid会变<br><code>sudo nano /etc/fstab</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UUID&#x3D;56c8f78c-0e59-4b78-b5f8-d71f36fc558c &#x2F;yi ext4 defaults 0 0</span><br><span class="line">&#x2F;yi &#x2F;home&#x2F;yxx&#x2F;yi none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;hexo &#x2F;home&#x2F;yxx&#x2F;hexo none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yxx&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dxz&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;yxx&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;dxx&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;kxx&#x2F;共享 none rw,bind 0 0</span><br><span class="line">&#x2F;yi&#x2F;gx&#x2F; &#x2F;yi&#x2F;mxx&#x2F;共享 none rw,bind 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>设置每个个人文件夹一个共享文件</p>
+<hr>
+<h4 id="挂载方案2"><a href="#挂载方案2" class="headerlink" title="挂载方案2"></a>挂载方案2</h4><p>临时挂载（每次关机后挂载会失效）例：<br><code>sudo mount -t ext4 /dev/sda /mnt/yishijie</code></p>
+<p>开机挂载<br><code>sudo nano /etc/rc.local</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -t ext4 &#x2F;dev&#x2F;sda &#x2F;yi</span><br><span class="line">#sudo mount &#x2F;dev&#x2F;sdb &#x2F;hexo</span><br><span class="line">sudo mount --bind &#x2F;yi&#x2F;ftp&#x2F;gx&#x2F; &#x2F;yi&#x2F;ftp&#x2F;yjj&#x2F;共享</span><br><span class="line">sudo mount --bind &#x2F;yi&#x2F;ftp&#x2F;gx&#x2F; &#x2F;yi&#x2F;ftp&#x2F;dy&#x2F;共享</span><br><span class="line">sudo mount --bind &#x2F;yi&#x2F;ftp&#x2F;gx&#x2F; &#x2F;yi&#x2F;ftp&#x2F;kgh&#x2F;共享</span><br><span class="line">sudo mount --bind &#x2F;yi&#x2F;ftp&#x2F;gx&#x2F; &#x2F;yi&#x2F;ftp&#x2F;mft&#x2F;共享</span><br><span class="line">sudo mount --bind &#x2F;yi&#x2F;ftp&#x2F;gx&#x2F; &#x2F;yi&#x2F;ftp&#x2F;dxz&#x2F;共享</span><br><span class="line">sudo mount --bind &#x2F;yi&#x2F;ftp&#x2F;gx&#x2F; &#x2F;yi&#x2F;ftp&#x2F;dsh&#x2F;共享</span><br><span class="line">#sudo mount --bind &#x2F;yi&#x2F;hexo&#x2F; &#x2F;home&#x2F;yihe&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
 <p>注意：<br>1.硬盘uuid的变化，<br>2.挂载文件夹类型用none，在hexo安装后挂载</p>
 <p>参考文献：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/daydayup654/article/details/78788310">Linux中挂载详解以及mount命令用法_daydayup654的博客</a></p>
 
@@ -117,6 +123,13 @@
   <div class="article-footer">
     <div class="article-meta pull-left">
 
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/IT/">IT</a>
+    </span>
     
 
     

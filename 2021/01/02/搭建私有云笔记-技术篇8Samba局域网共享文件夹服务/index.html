@@ -10,7 +10,7 @@
   
 
   
-  <meta name="description" content="关键词：IT，树莓派4b，samba，局域网共享文件夹
+  <meta name="description" content="关键词：IT、树莓派4b、samba、局域网共享文件夹
 samba安装环境：硬件，树莓派4b操作系统，Raspbian GNU/Linux 10 (buster)
 Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。SMB（Server Messages ">
   
@@ -88,7 +88,7 @@ Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务
   <div class="article-content">
     <div class="entry">
       
-        <p><strong>关键词：<font color="#BF360C">IT，树莓派4b，samba，局域网共享文件夹</font></strong></p>
+        <p><strong>关键词：<font color="#BF360C">IT、树莓派4b、samba、局域网共享文件夹</font></strong></p>
 <h2 id="samba"><a href="#samba" class="headerlink" title="samba"></a>samba</h2><p>安装环境：<br>硬件，树莓派4b<br>操作系统，Raspbian GNU/Linux 10 (buster)</p>
 <p>Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，它跨平台，跨系统为局域网内的设备提供文件及打印机等资源的共享服务。</p>
 <hr>
@@ -98,7 +98,7 @@ Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务
 <p>添加 Samba用户并设置密码<br><code>sudo smbpasswd -a 用户名</code></p>
 <p>重启<br><code>sudo samba restart</code></p>
 <hr>
-<h4 id="windows10开启局域网共享"><a href="#windows10开启局域网共享" class="headerlink" title="windows10开启局域网共享"></a>windows10开启局域网共享</h4><p>修改注册表：<br>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]项，在右侧空白处右击鼠标，从其右键新建-“DWORD值（32位）”，重命名为“AllowInsecureGuestAuth”，同时将其值修改为“1”<br>“网络和共享中心”点击左上角的“更改高级共享设置”“来宾或公用”栏目，勾选“启用网络发现”和“启用文件和打印共享”项<br>运行“services.msc”“Server”服务设置为“自动”，并“启动”<br>重启</p>
+<h4 id="windows10开启局域网共享"><a href="#windows10开启局域网共享" class="headerlink" title="windows10开启局域网共享"></a>windows10开启局域网共享</h4><p>修改注册表：<br>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]项，在右侧空白处右击鼠标，从其右键新建-“DWORD值（32位）”，重命名为“AllowInsecureGuestAuth”，同时将其值修改为“1”，新建一个注册表值（名为“ProhibitIPSec”，值为“1”）<br>“网络和共享中心”点击左上角的“更改高级共享设置”“来宾或公用”栏目，勾选“启用网络发现”和“启用文件和打印共享”项<br>运行“services.msc”“Server”服务设置为“自动”，并“启动”<br>重启</p>
 <p>参考<a target="_blank" rel="noopener" href="https://www.jb51.net/os/win10/438373.html">win10局域网无法访问怎么办? win10网上邻居不能访问其他电脑的解决办法_windows10_Windows系列_操作系统_脚本之家</a></p>
 
       

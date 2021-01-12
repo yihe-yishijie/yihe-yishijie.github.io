@@ -10,7 +10,7 @@
   
 
   
-  <meta name="description" content="关键词：IT，树莓派4b，博客，hexo
+  <meta name="description" content="关键词：IT、树莓派4b、博客、hexo
 
 搭建个人博客现在比较流行的博客包括wordpress，hexo，因为可以生成静态网页，并且免费在github上部署，hexo可以完美支持markdown功能，相比动态博客，hexo低成本易维护，弈何最后选择了hexo。
 缺点：静态博客互动性差
@@ -90,7 +90,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p><strong>关键词：<font color="#BF360C">IT，树莓派4b，博客，hexo</font></strong></p>
+        <p><strong>关键词：<font color="#BF360C">IT、树莓派4b、博客、hexo</font></strong></p>
 <hr>
 <h2 id="搭建个人博客"><a href="#搭建个人博客" class="headerlink" title="搭建个人博客"></a>搭建个人博客</h2><p>现在比较流行的博客包括wordpress，hexo，因为可以生成静态网页，并且免费在github上部署，hexo可以完美支持markdown功能，相比动态博客，hexo低成本易维护，弈何最后选择了hexo。</p>
 <p>缺点：静态博客互动性差</p>
@@ -118,6 +118,10 @@
 <blockquote>
 <p>启用分类和标签页面<br>分类功能：执行 <code>hexo new page categories</code> ，然后修改生成的 <code>source/categories/index.md</code> ：<br>title: 分类<br>date: 2017-01-30 19:16:17<br>layout: “categories”<br>-–<br>如果你需要关闭该页的评论，可以添加一行 <code>comments: false</code>；<code>title</code> 对应的则是该页的标题。<br>标签功能：同理，执行 <code>hexo new page tags</code> ，然后修改生成的 <code>source/tags/index.md</code> ：<br>title: 标签<br>date: 2017-01-30 19:16:17<br>layout: “tags”<br>-–</p>
 </blockquote>
+<hr>
+<h4 id="修改样式模板"><a href="#修改样式模板" class="headerlink" title="修改样式模板"></a>修改样式模板</h4><p>修改了<code>scaffolds</code>中的<code>post</code>模板即可用<code>hexo n(new) &quot;文章题目&quot;</code>自动生成你想要模板的文章。</p>
+<p>这是弈何的文章模板：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">categories: </span><br><span class="line">tags: </span><br><span class="line"> - </span><br><span class="line">---</span><br><span class="line">**关键词：&lt;font color=#BF360C&gt;、&lt;/font&gt;**</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">## </span><br><span class="line"></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 <hr>
 <h4 id="hexo加图"><a href="#hexo加图" class="headerlink" title="hexo加图"></a>hexo加图</h4><p>参见此贴：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f72aaad7b852">HEXO插入图片（详细版） - 简书</a></p>
 <p>下文为资料存档，避免网页丢失<br>安装插件<br><code>npm install hexo-asset-image --save</code></p>
