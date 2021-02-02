@@ -131,7 +131,7 @@
 <hr>
 <h4 id="git推送"><a href="#git推送" class="headerlink" title="git推送"></a>git推送</h4><p>GitHub创建个人仓库<br>注册<br>创建一个和你用户名相同的仓库，后面加.github.io<br>生成SSH添加到GitHub</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
-<p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code><br>在.ssh文件中找到公共秘钥<code>id_rsa.pub</code><br>将其复制到GitHub仓库的设置-密钥中<br><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/github%E5%AF%86%E9%92%A52020123102.png" alt="[github密钥2020123102.png]"></p>
+<p><code>ssh-keygen -t rsa -b 4096 -C &quot;youremail&quot;</code><br>在.ssh文件中找到公共秘钥<code>id_rsa.pub</code><br>将其复制到GitHub仓库的设置-密钥中<br><img src="/2021/01/02/%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91%E7%AC%94%E8%AE%B0-%E6%8A%80%E6%9C%AF%E7%AF%879%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/github%E5%AF%86%E9%92%A52020123102.png" alt="[github密钥2020123102.png]"></p>
 <p>github是外网，弈何测试过在国内联通手机不用wifi不能直接打开，可以再配一个gitee仓库</p>
 <p>在gitee配置与github相同</p>
 <p>修改：<code>_config.yml</code></p>
